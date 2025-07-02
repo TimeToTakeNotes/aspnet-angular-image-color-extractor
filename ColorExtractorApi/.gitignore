@@ -1,0 +1,84 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Image Uploads folder
+/wwwroot/uploads/
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# ASP.NET Core secrets
+secrets.json
+
+# Configuration files
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json.user
+
+# Dotnet artifacts
+*.dbmdl
+*.bak
+*.sql
+*.mdf
+*.ldf
+
+# Entity Framework migrations snapshot
+Migrations/*Snapshot.cs
+
+# Publish output
+publish/
+*.pubxml
+*.publishproj
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+*.symbols.nupkg
+packages/
+
+# Coverage/test results
+TestResults/
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+*.vsp
+*.vspscc
+*.vssscc
+*.pdb
+
+# Resharper/other IDE files
+_ReSharper*/
+*.DotSettings.user
+
+# Azure Functions local files
+local.settings.json
+
+# Backup & temp files
+*.tmp
+*.bak
+*.swp
+*.~*
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Mac specific
+.DS_Store

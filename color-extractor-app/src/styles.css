@@ -1,0 +1,38 @@
+/* Global Styles */
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    color: #333;
+}
+
+a.global-button, button.global-button {
+    display: inline-block;
+    background-color: #4a90e2;
+    color: white;
+    text-decoration: none;
+    padding: 12px 28px;
+    margin: 10px; 
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 8px rgba(74, 144, 226, 0.4);
+    cursor: pointer;
+    border: none; 
+}
+
+a.global-button:hover, button.global-button:hover {
+    background-color: #357ABD;
+    box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: 600;
+    color: #173d65;
+}

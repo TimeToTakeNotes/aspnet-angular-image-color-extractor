@@ -1,0 +1,25 @@
+<h1>Upload an Image</h1>
+
+<form (ngSubmit)="onUpload()">
+  <p>
+    <label for="imageUpload">Choose Image:</label>
+    <input type="file" id="imageUpload" (change)="onFileSelected($event)" accept="image/*">
+  </p>
+  <button type="submit" [disabled]=" isUploading" class="global-button">
+    {{ isUploading ? 'Uploading...' : 'Upload' }}
+  </button>
+  <p *ngIf="errorMessage" style="color: red; text-align: center; margin-top: 15px;">{{ errorMessage }}</p>
+</form>
+
+<ng-container *ngIf="uploadedImageUrl">
+  <h2>Uploaded Image</h2>
+  <img class="img" [src]="uploadedImageUrl" alt="Uploaded Image">
+  <p>Centre Pixel Hex Color: <span>{{ hexColor }}</span>
+    <span class="color-box" [style.background-color]="hexColor"></span>
+  </p>
+</ng-container>
+
+<div class="nav-buttons">
+  <a routerLink="/" class="global-button">Back to Home</a>
+  <a routerLink="/images" class="global-button">Go to Image List</a>
+</div>
