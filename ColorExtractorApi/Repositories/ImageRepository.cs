@@ -1,6 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using ColorExtractorApi.Data;
 using ColorExtractorApi.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ColorExtractorApi.Repository
 {
