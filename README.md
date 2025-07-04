@@ -11,6 +11,7 @@ The backend is built with **ASP.NET Core Web API**, and the frontend is built wi
 - Thumbnail generated
 - Images path to wwwroot folder and data saved to SQL Server
 - View image list + details in Angular app
+- Secure user sign up/login
 - Clean architecture: repository + service layers
 - Environment variable used for DB connection
 
@@ -149,19 +150,19 @@ The API will be available at: `http://localhost:5176`
 
 ### 3️. Angular frontend setup
 
-#### Navigate to the frontend folder:
+#### 3.1 Navigate to the frontend folder:
 
 ```bash
 cd ../color-extractor-app
 ```
 
-#### Install dependencies:
+#### 3.2 Install dependencies:
 
 ```bash
 npm install
 ```
 
-#### Run the Angular app:
+#### 3.3 Run the Angular app:
 
 ```bash
 ng serve --open
