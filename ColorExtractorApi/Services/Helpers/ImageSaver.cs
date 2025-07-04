@@ -1,30 +1,33 @@
-public class ImageSaver : IImageSaver
+namespace ColorExtractorApi.Helpers
 {
-    private readonly IWebHostEnvironment _env;
-
-    public ImageSaver(IWebHostEnvironment env)
+    public class ImageSaver
     {
-        _env = env;
-    }
+        private readonly IWebHostEnvironment _env;
 
-    public async Task<(string ImagePath, string ThumbnailPath)> SaveImageAndThumbnailAsync(byte[] imgBytes, byte[] thumbBytes, string baseFileName)
-    {
-        // Build file paths:
-        var uploadsDir = Path.Combine(_env.WebRootPath, "uploads");
-        var thumbsDir = Path.Combine(uploadsDir, "thumbnails");
-        Directory.CreateDirectory(uploadsDir);
-        Directory.CreateDirectory(thumbsDir);
+        public ImageSaver(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
 
-        var imgPath = Path.Combine(uploadsDir, $"{baseFileName}.png"); // Use same base for both img and thumb
-        var thumbPath = Path.Combine(thumbsDir, $"{baseFileName}_thumb.jpg");
+        public async Task<(string ImagePath, string ThumbnailPath)> SaveImageAndThumbnailAsync(byte[] imgBytes, byte[] thumbBytes, string baseFileName)
+        {
+            // Build file paths:
+            var uploadsDir = Path.Combine(_env.WebRootPath, "uploads");
+            var thumbsDir = Path.Combine(uploadsDir, "thumbnails");
+            Directory.CreateDirectory(uploadsDir);
+            Directory.CreateDirectory(thumbsDir);
 
-        // Save files to disk:
-        await File.WriteAllBytesAsync(imgPath, imgBytes);
-        await File.WriteAllBytesAsync(thumbPath, thumbBytes);
+            var imgPath = Path.Combine(uploadsDir, $"{baseFileName}.png"); // Use same base for both img and thumb
+            var thumbPath = Path.Combine(thumbsDir, $"{baseFileName}_thumb.jpg");
 
-        return (
-            $"uploads/{baseFileName}.png".Replace("\\", "/"),
-            $"uploads/thumbnails/{baseFileName}_thumb.jpg".Replace("\\", "/")
-        );
+            // Save files to disk:
+            await File.WriteAllBytesAsync(imgPath, imgBytes);
+            await File.WriteAllBytesAsync(thumbPath, thumbBytes);
+
+            return (
+                $"uploads/{baseFileName}.png".Replace("\\", "/"),
+                $"uploads/thumbnails/{baseFileName}_thumb.jpg".Replace("\\", "/")
+            );
+        }
     }
 }

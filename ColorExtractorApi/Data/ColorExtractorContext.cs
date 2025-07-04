@@ -3,11 +3,11 @@ using ColorExtractorApi.Models;
 
 namespace ColorExtractorApi.Data
 {
-    public class ImageDbContext : DbContext
+    public class ColorExtractorContext : DbContext
     {
-        public ImageDbContext(DbContextOptions<ImageDbContext> options)
+        public ColorExtractorContext(DbContextOptions<ColorExtractorContext> options)
             : base(options) { }
-
         public DbSet<ImageColor> ImageColors { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
     }
 }

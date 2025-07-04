@@ -1,15 +1,16 @@
+using ColorExtractorApi.Helpers;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Repository;
 
 namespace ColorExtractorApi.Services
 {
-    public class ImageProcessingService
+    public class ImageService : IImageService
     {
         private readonly IImageRepository _imageRepository;
-        private readonly IImageProcessor _imageProcessor;
-        private readonly IImageSaver _imageSaver;
+        private readonly ImageProcessor _imageProcessor;
+        private readonly ImageSaver _imageSaver;
 
-        public ImageProcessingService(IImageRepository repo, IImageProcessor processor, IImageSaver saver)
+        public ImageService(IImageRepository repo, ImageProcessor processor, ImageSaver saver)
         {
             _imageRepository = repo;
             _imageProcessor = processor;

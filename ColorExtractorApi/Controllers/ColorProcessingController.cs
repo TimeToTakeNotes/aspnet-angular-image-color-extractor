@@ -7,11 +7,11 @@ namespace ColorExtractorApi.Controllers
     [Route("api/[controller]")]
     public class ImageController : ControllerBase
     {
-        private readonly ImageProcessingService _imageProcessingService;
+        private readonly IImageService _imageService;
 
-        public ImageController(ImageProcessingService imageProcessingService)
+        public ImageController(IImageService imageService)
         {
-            _imageProcessingService = imageProcessingService;
+            _imageService = imageService;
         }
 
         [HttpPost("upload")]
@@ -22,7 +22,7 @@ namespace ColorExtractorApi.Controllers
 
             using var stream = img.OpenReadStream();
 
-            var result = await _imageProcessingService.ProcessAndSaveImageAsync(stream);
+            var result = await _imageService.ProcessAndSaveImageAsync(stream);
 
             var request = HttpContext.Request;
             var baseUrl = $"{request.Scheme}://{request.Host}";
@@ -39,7 +39,7 @@ namespace ColorExtractorApi.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> GetAllImages()
         {
-            var images = await _imageProcessingService.GetAllImagesAsync();
+            var images = await _imageService.GetAllImagesAsync();
 
             var request = HttpContext.Request;
             var baseUrl = $"{request.Scheme}://{request.Host}";
@@ -57,7 +57,7 @@ namespace ColorExtractorApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetImageById(int id)
         {
-            var img = await _imageProcessingService.GetImageByIdAsync(id);
+            var img = await _imageService.GetImageByIdAsync(id);
             if (img == null)
                 return NotFound();
 

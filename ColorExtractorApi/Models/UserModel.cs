@@ -1,5 +1,4 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations; // Allows adding validation rules and metadata to models
 
 namespace ColorExtractorApi.Models
 {

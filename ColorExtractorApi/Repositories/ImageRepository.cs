@@ -7,9 +7,10 @@ namespace ColorExtractorApi.Repository
     // Class for interacting with db for img data:
     public class ImageRepository : IImageRepository
     {
-        private readonly ImageDbContext _context;
+        private readonly ColorExtractorContext _context;
 
-        public ImageRepository(ImageDbContext context) // Contructor -> inject db context so we can perform db operations
+        // Contructor: inject ColorExtractContext (EF Core DbContext) so we can perform db operations
+        public ImageRepository(ColorExtractorContext context)
         {
             _context = context;
         }

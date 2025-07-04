@@ -1,4 +1,4 @@
-namespace ColorExtractorApi.Models
+namespace ColorExtractorApi.Models.DTOs
 {
     public class RegisterRequest
     {
