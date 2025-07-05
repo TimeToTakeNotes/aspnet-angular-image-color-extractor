@@ -47,14 +47,21 @@ builder.Services.AddDbContext<ColorExtractorContext>(options =>
     options.UseSqlServer(connectionString)
 );
 
+// Cotnrollers:
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+// Repositories:
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<JwtUtils>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+
+// Services:
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+
+//Service Helpers:
+builder.Services.AddScoped<JwtUtils>();
 builder.Services.AddScoped<ImageProcessor>();
 builder.Services.AddScoped<ImageSaver>();
 

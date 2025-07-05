@@ -4,7 +4,7 @@ namespace ColorExtractorApi.Models
 {
     public class User
     {
-        [Key] 
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -17,12 +17,17 @@ namespace ColorExtractorApi.Models
 
         [Required]
         [EmailAddress]
-        [MaxLength(200)]
+        [MaxLength(100)]
         public string Email { get; set; } = string.Empty;
 
         [Required]
         public string PasswordHash { get; set; } = string.Empty;
 
+        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Required]
+        public List<RefreshToken> RefreshTokens { get; set; } = new();
+
     }
 }

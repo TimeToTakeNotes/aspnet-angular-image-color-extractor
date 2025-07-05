@@ -8,5 +8,6 @@ namespace ColorExtractorApi.Services
         Task<AuthResponse> RegisterAsync(RegisterRequest model);
         Task<AuthResponse> LoginAsync(LoginRequest model);
         Task<UserDto?> ValidateTokenAsync(string token);
+        Task<AuthResponse> RefreshTokenAsync(string refreshTokenStr);
     }
 }

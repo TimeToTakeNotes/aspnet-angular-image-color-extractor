@@ -9,5 +9,6 @@ namespace ColorExtractorApi.Data
             : base(options) { }
         public DbSet<ImageColor> ImageColors { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
     }
 }

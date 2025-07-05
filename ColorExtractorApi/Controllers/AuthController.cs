@@ -72,5 +72,24 @@ namespace ColorExtractorApi.Controllers
 
             return Ok(userDto);
         }
+
+        // Accepts a refresh token and returns new access + refresh tokens if valid.
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
+        {
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(request.RefreshToken))
+            {
+                return BadRequest(new { Message = "Invalid refresh token data." });
+            }
+
+            var response = await _authService.RefreshTokenAsync(request.RefreshToken);
+
+            if (!response.Success)
+            {
+                return Unauthorized(new { response.Message });
+            }
+
+            return Ok(response);
+        }
     }
 }
