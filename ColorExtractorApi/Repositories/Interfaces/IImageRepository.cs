@@ -6,7 +6,8 @@ namespace ColorExtractorApi.Repository
     public interface IImageRepository
     {
         Task AddImageAsync(ImageColor image);
-        Task<IEnumerable<ImageColor>> GetAllImagesAsync();
-        Task<ImageColor?> GetImageByIdAsync(int id);
+        // Task<IEnumerable<ImageColor>> GetAllImagesAsync();
+        Task<ImageColor?> GetImageByImageIdAsync(int id, int userId);
+        Task<IEnumerable<ImageColor>> GetImagesByUserIdAsync(int userId);
     }
 }

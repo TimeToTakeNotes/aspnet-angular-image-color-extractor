@@ -22,16 +22,25 @@ namespace ColorExtractorApi.Repository
             await _context.SaveChangesAsync(); // Saves changes to db
         }
 
-        // Get all img records from db:
-        public async Task<IEnumerable<ImageColor>> GetAllImagesAsync()
+        // Get all img records from db: (admin?)
+        // public async Task<IEnumerable<ImageColor>> GetAllImagesAsync()
+        // {
+        //     return await _context.ImageColors.ToListAsync(); // Imgs will be displayd as list sp return as list
+        // }
+
+        // Get single img record using imageId and ensure ownership:
+        public async Task<ImageColor?> GetImageByImageIdAsync(int id, int userId)
         {
-            return await _context.ImageColors.ToListAsync(); // Imgs will be displayd as list sp return as list
+            return await _context.ImageColors
+                .FirstOrDefaultAsync(img => img.Id == id && img.UserId == userId);
         }
 
-        // Get single img record using ID:
-        public async Task<ImageColor?> GetImageByIdAsync(int id)
+        // Get all images for a specific user
+        public async Task<IEnumerable<ImageColor>> GetImagesByUserIdAsync(int userId)
         {
-            return await _context.ImageColors.FindAsync(id);
+            return await _context.ImageColors
+                .Where(img => img.UserId == userId)
+                .ToListAsync();
         }
     }
 }

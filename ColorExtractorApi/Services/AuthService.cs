@@ -92,15 +92,6 @@ namespace ColorExtractorApi.Services
             };
         }
 
-        public async Task<UserDto?> ValidateTokenAsync(string jwtToken)
-        {
-            var userId = _jwtUtils.ValidateToken(jwtToken);
-            if (userId == null) return null;
-
-            var user = await _userRepository.GetByIdAsync(userId.Value);
-            return user != null ? new UserDto(user) : null;
-        }
-
         public async Task<AuthResponse> RefreshTokenAsync(string refreshTokenStr)
         {
             var refreshToken = await _refreshRepository.GetRefreshTokenAsync(refreshTokenStr);
@@ -131,6 +122,13 @@ namespace ColorExtractorApi.Services
                 User = new UserDto(user)
             };
         }
+
+        public async Task<UserDto?> GetUserByIdAsync(int userId) // Not really auth, move to a UserService later
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            return user != null ? new UserDto(user) : null;
+        }
+
         
         // Helper method: Centralizes token creation logic:
         private (string jwt, DateTime jwtExpires, RefreshToken refreshToken) GenerateTokensForUser(User user)

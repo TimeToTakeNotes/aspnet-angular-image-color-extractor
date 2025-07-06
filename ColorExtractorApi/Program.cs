@@ -1,5 +1,9 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
 using ColorExtractorApi.Data;
 using ColorExtractorApi.Helpers;
 using ColorExtractorApi.Repository;
@@ -42,14 +46,37 @@ if (!string.IsNullOrEmpty(serverName))
     connectionString = builderConn.ConnectionString;
 }
 
+// Load JWT key from env or config
+var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY")
+          ?? builder.Configuration["JwtSettings:Key"];
+
+if (string.IsNullOrEmpty(jwtKey))
+    throw new Exception("JWT key missing in environment variables or configuration.");
+
+
 // Register DbContext with the final connection str
 builder.Services.AddDbContext<ColorExtractorContext>(options =>
     options.UseSqlServer(connectionString)
 );
 
+
 // Cotnrollers:
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// JWT Authentication:
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey))
+        };
+    });
+builder.Services.AddAuthorization();
 
 // Repositories:
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -61,7 +88,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 
 //Service Helpers:
-builder.Services.AddScoped<JwtUtils>();
+builder.Services.AddScoped(sp => new JwtUtils(jwtKey)); // Pass key to JwtUtils via DI
 builder.Services.AddScoped<ImageProcessor>();
 builder.Services.AddScoped<ImageSaver>();
 
@@ -78,6 +105,7 @@ app.Lifetime.ApplicationStarted.Register(() =>
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors(MyAllowFrontend);
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

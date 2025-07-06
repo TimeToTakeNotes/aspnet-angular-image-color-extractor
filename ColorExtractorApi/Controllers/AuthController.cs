@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ColorExtractorApi.Models.DTOs;
 using ColorExtractorApi.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ColorExtractorApi.Controllers
 {
@@ -19,11 +21,6 @@ namespace ColorExtractorApi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid registration data.");
-            }
-
             var response = await _authService.RegisterAsync(request);
 
             if (!response.Success)
@@ -54,20 +51,20 @@ namespace ColorExtractorApi.Controllers
         }
 
         /// Validates a token and returns user info if valid.
+        [Authorize]
         [HttpGet("me")]
         public async Task<IActionResult> GetMe()
         {
-            var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
-            if (string.IsNullOrEmpty(token))
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("nameid");
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
             {
-                return Unauthorized(new { Message = "Missing token." });
+                return Unauthorized(new { Message = "Invalid token or user ID claim missing." });
             }
 
-            var userDto = await _authService.ValidateTokenAsync(token);
+            var userDto = await _authService.GetUserByIdAsync(userId);
             if (userDto == null)
             {
-                return Unauthorized(new { Message = "Invalid or expired token." });
+                return Unauthorized(new { Message = "User not found." });
             }
 
             return Ok(userDto);

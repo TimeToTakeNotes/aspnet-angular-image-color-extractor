@@ -9,22 +9,16 @@ namespace ColorExtractorApi.Helpers
     // Helper service for creating and validating JWT tokens for auth.
     public class JwtUtils
     {
-        private readonly IConfiguration _config;
         private readonly string _jwtKey;
 
         // Constructor: Retrieves JWT secret key from either env var or appsettings.json:
-        public JwtUtils(IConfiguration config)
+        public JwtUtils(string jwtKey)
         {
-            _config = config;
-
-            // Try env var 1st, then fallback to config
-            _jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY")
-                    ?? _config["JwtSettings:Key"]!; // _jwtKey is secret key used to sign/verify jwt tokens. -> 32-byte array in hex format
-
-            if (string.IsNullOrEmpty(_jwtKey))
+            if (string.IsNullOrEmpty(jwtKey))
             {
-                throw new ArgumentNullException("JWT key missing from environment variables or configuration.");
+                throw new ArgumentNullException(nameof(jwtKey), "JWT key must not be null or empty.");
             }
+            _jwtKey = jwtKey;
         }
 
         // Generates a JWT token for the given user.
@@ -79,7 +73,12 @@ namespace ColorExtractorApi.Helpers
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "nameid").Value);
+                
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "nameid");
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    return null;
+                }
 
                 return userId; // Extracts and returns uesdId from JWT if valid
             }

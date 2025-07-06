@@ -15,5 +15,9 @@ namespace ColorExtractorApi.Models
 
         [MaxLength(7)]
         public string? HexColor { get; set; }
+
+        // Link image to user
+        [Required]
+        public int UserId { get; set; } // FK linked to User table/model
     }
 }
