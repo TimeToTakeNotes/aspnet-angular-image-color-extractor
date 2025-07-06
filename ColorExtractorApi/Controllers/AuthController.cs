@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
-using ColorExtractorApi.Models.DTOs;
-using ColorExtractorApi.Services;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ColorExtractorApi.Controllers.Helpers;
+using ColorExtractorApi.Services;
+using ColorExtractorApi.Models.DTOs;
 
 namespace ColorExtractorApi.Controllers
 {
@@ -28,7 +29,15 @@ namespace ColorExtractorApi.Controllers
                 return BadRequest(new { response.Message });
             }
 
-            return Ok(response);
+            CookieHelper.SetAuthCookies(
+                Response,
+                response.Token!,
+                response.RefreshToken!,
+                response.ExpiresAt,
+                response.RefreshTokenExpiresAt
+            );
+
+            return Ok(new { response.Message, response.User });
         }
 
         // Authenticates an existing user and returns a token if credentials are valid.
@@ -47,7 +56,17 @@ namespace ColorExtractorApi.Controllers
                 return Unauthorized(new { response.Message });
             }
 
-            return Ok(response);
+            // Set HttpOnly cookies here
+            CookieHelper.SetAuthCookies(
+                Response,
+                response.Token!,
+                response.RefreshToken!,
+                response.ExpiresAt,
+                response.RefreshTokenExpiresAt
+            );
+
+
+            return Ok(new { response.Message, response.User });
         }
 
         /// Validates a token and returns user info if valid.
@@ -74,19 +93,36 @@ namespace ColorExtractorApi.Controllers
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
         {
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(request.RefreshToken))
+            var refreshToken = Request.Cookies["refresh_token"];
+            if (string.IsNullOrWhiteSpace(refreshToken))
             {
-                return BadRequest(new { Message = "Invalid refresh token data." });
+                return Unauthorized(new { Message = "Refresh token missing." });
             }
 
-            var response = await _authService.RefreshTokenAsync(request.RefreshToken);
+            var response = await _authService.RefreshTokenAsync(refreshToken);
 
             if (!response.Success)
             {
                 return Unauthorized(new { response.Message });
             }
 
-            return Ok(response);
+            CookieHelper.SetAuthCookies(
+                Response,
+                response.Token!,
+                response.RefreshToken!,
+                response.ExpiresAt,
+                response.RefreshTokenExpiresAt
+            );
+
+            return Ok(new { response.Message });
+        }
+        
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            Response.Cookies.Delete("refresh_token");
+            return Ok(new { Message = "Logged out successfully." });
         }
     }
 }

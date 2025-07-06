@@ -1,4 +1,4 @@
-using ColorExtractorApi.Helpers;
+using ColorExtractorApi.Services.Helpers;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Repository;
 

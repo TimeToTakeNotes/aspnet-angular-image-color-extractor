@@ -35,18 +35,26 @@ export class ImageService {
   constructor(private http: HttpClient) { }
 
   uploadImage(file: File): Observable<UploadResponse> {
+    // Backend [HttpPost("upload")] endpoint
     const formData = new FormData();
     formData.append('img', file, file.name);
-    return this.http.post<UploadResponse>(`${this.apiUrl}/upload`, formData);
+
+    return this.http.post<UploadResponse>(`${this.apiUrl}/upload`, formData, {
+      withCredentials: true
+    });
   }
 
-  getImages(): Observable<ImageListItem[]> {
-    // Backend [HttpGet("list")] endpoint
-    return this.http.get<ImageListItem[]>(`${this.apiUrl}/list`);
+  getMyImages(): Observable<ImageListItem[]> {
+    // Backend [HttpGet("my-images")] endpoint
+    return this.http.get<ImageListItem[]>(`${this.apiUrl}/my-images`, {
+      withCredentials: true
+    });
   }
 
   getImageDetail(id: number): Observable<ImageDetail> {
     // Backend [HttpGet("{id}")] endpoint
-    return this.http.get<ImageDetail>(`${this.apiUrl}/${id}`);
+    return this.http.get<ImageDetail>(`${this.apiUrl}/${id}`, {
+      withCredentials: true
+    });
   }
 }

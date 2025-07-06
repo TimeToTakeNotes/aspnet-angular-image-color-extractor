@@ -2,7 +2,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace ColorExtractorApi.Helpers
+namespace ColorExtractorApi.Services.Helpers
 {
     public class ImageProcessor
     {

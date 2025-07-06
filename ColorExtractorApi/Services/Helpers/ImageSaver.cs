@@ -1,4 +1,4 @@
-namespace ColorExtractorApi.Helpers
+namespace ColorExtractorApi.Services.Helpers
 {
     public class ImageSaver
     {

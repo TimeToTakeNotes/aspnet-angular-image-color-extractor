@@ -23,7 +23,7 @@ export class ImageListComponent implements OnInit {
 
   getImages(): void {
     this.isLoading = true;
-    this.imageService.getImages().subscribe({
+    this.imageService.getMyImages().subscribe({
       next: (data: ImageListItem[]) => { // Expect ImageListItem arr
         this.images = data;
         this.isLoading = false;

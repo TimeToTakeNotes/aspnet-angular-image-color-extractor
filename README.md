@@ -11,7 +11,8 @@ The backend is built with **ASP.NET Core Web API**, and the frontend is built wi
 - Thumbnail generated
 - Images path to wwwroot folder and data saved to SQL Server
 - View image list + details in Angular app
-- Secure user sign up/login
+- Secure user sign up/login with JWT stored as HttpOnly cookies (access + refresh tokens)
+- Token refresh and logout endpoints with cookie handling
 - Clean architecture: repository + service layers
 - Environment variable used for DB connection
 
@@ -156,11 +157,15 @@ The API will be available at: `http://localhost:5176`
 cd ../color-extractor-app
 ```
 
+---
+
 #### 3.2 Install dependencies:
 
 ```bash
 npm install
 ```
+
+---
 
 #### 3.3 Run the Angular app:
 
@@ -169,6 +174,16 @@ ng serve --open
 ```
 
 The frontend will be available at: `http://localhost:4200`
+
+---
+
+### 3.4 Frontend Authentication:
+
+- The Angular frontend uses auth.service.ts to handle login, logout, and token refresh by communicating with the backend API.
+
+- HttpOnly cookies are used for storing tokens securely, so tokens are not accessible via JavaScript on the client side.
+
+- Ensure HTTP requests include credentials (cookies) by configuring your Angular HttpClient calls appropriately (e.g., { withCredentials: true }).
 
 ---
 
@@ -191,11 +206,13 @@ The frontend will be available at: `http://localhost:4200`
 
 ## **Example API endpoints**
 
-| Method | URL                 | Description                                 |
-| ------ | ------------------- | ------------------------------------------- |
-| `POST` | `/api/image/upload` | Upload an image file                        |
-| `GET`  | `/api/image/list`   | Get all uploaded images                     |
-| `GET`  | `/api/image/{id}`   | Get details of a specific image             |
-| `POST` | `/api/auth/register`| Register a new user                         |
-| `POST` | `/api/auth/login`   | Authenticate user and return a JWT token    |
-| `GET`  | `/api/auth/me`      | Validate token and return current user info |
+| Method | URL                   | Description                                 |
+| ------ | --------------------- | ------------------------------------------- |
+| `POST` | `/api/image/upload`   | Upload an image file                        |
+| `GET`  | `/api/image/my-images`| Get all uploaded images                     |
+| `GET`  | `/api/image/{id}`     | Get details of a specific image             |
+| `POST` | `/api/auth/register`  | Register a new user                         |
+| `POST` | `/api/auth/login`     | Authenticate user and return a JWT token    |
+| `GET`  | `/api/auth/me`        | Validate token and return current user info |
+| `POST` | `/api/auth/refresh`   | Refresh JWT tokens via HttpOnly cookies     |
+| `POST` | `/api/auth/logout`    | Clear auth cookies to logout                |

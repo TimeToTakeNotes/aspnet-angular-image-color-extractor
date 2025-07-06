@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using ColorExtractorApi.Models;
 
-namespace ColorExtractorApi.Helpers
+namespace ColorExtractorApi.Services.Helpers
 {
     // Helper service for creating and validating JWT tokens for auth.
     public class JwtUtils
