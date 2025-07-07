@@ -13,7 +13,9 @@ The backend is built with **ASP.NET Core Web API**, and the frontend is built wi
 - View image list + details in Angular app
 - Secure user sign up/login with JWT stored as HttpOnly cookies (access + refresh tokens)
 - Token refresh and logout endpoints with cookie handling
+- Per-user image access enforced both on backend and frontend
 - Clean architecture: repository + service layers
+- Angular standalone components used for all views (Login, Register, Home, Upload, etc.)
 - Environment variable used for DB connection
 
 ---
@@ -42,8 +44,6 @@ cd ColorExtractorApi
 ```bash
 dotnet restore
 ```
-
----
 
 #### 2.3 Set up your database connection:
 
@@ -75,7 +75,6 @@ export SERVER_NAME=YOUR_SQL_SERVER_NAME
     }
 }
 ```
----
 
 #### 2.4 Set up your JWT secret
 
@@ -96,8 +95,6 @@ export JWT_SECRET_KEY=YOUR_32_CHARACTER_SECRET_HERE
 ```
 *(Choose a strong secret! Example: `3a335b0f0bbe70dd2623b2e00b825e4012efffcd8e6eb80e0cf16c91131f3e3`)*
 
----
-
 **Option 2 — Set directly in `appsettings.Development.json`**
 
 ```json
@@ -108,8 +105,6 @@ export JWT_SECRET_KEY=YOUR_32_CHARACTER_SECRET_HERE
 }
 ```
 *(This will be picked up when your `ASPNETCORE_ENVIRONMENT` is set to `Development`)*
-
----
 
 #### 2.5 Set the ASP.NET Core environment to Development (optional but recommended)
 
@@ -127,8 +122,6 @@ $env:ASPNETCORE_ENVIRONMENT = "Development"
 export ASPNETCORE_ENVIRONMENT=Development
 ```
 
----
-
 #### 2.6 Apply migrations + create database:
 
 ```bash
@@ -137,7 +130,6 @@ dotnet ef database update
 
 *(Ensure SQL Server is running)*
 
----
 
 #### 2.7 Run the backend:
 
@@ -157,15 +149,11 @@ The API will be available at: `http://localhost:5176`
 cd ../color-extractor-app
 ```
 
----
-
 #### 3.2 Install dependencies:
 
 ```bash
 npm install
 ```
-
----
 
 #### 3.3 Run the Angular app:
 
@@ -175,15 +163,14 @@ ng serve --open
 
 The frontend will be available at: `http://localhost:4200`
 
----
-
 ### 3.4 Frontend Authentication:
 
 - The Angular frontend uses auth.service.ts to handle login, logout, and token refresh by communicating with the backend API.
-
 - HttpOnly cookies are used for storing tokens securely, so tokens are not accessible via JavaScript on the client side.
-
 - Ensure HTTP requests include credentials (cookies) by configuring your Angular HttpClient calls appropriately (e.g., { withCredentials: true }).
+- Angular routes are protected using an `auth.guard`. Only logged-in users can access protected pages like Home, Upload, Images.
+- Standalone Register and Login components handle user authentication and navigation.
+- Register form includes client-side password confirmation validation.
 
 ---
 
@@ -198,9 +185,9 @@ The frontend will be available at: `http://localhost:4200`
 
 ## **.gitignore / uploads**
 
-* `wwwroot/uploads/` is used to save uploaded images and thumbnails at runtime.
-* This folder is ignored by Git and **will not be pushed to GitHub**.
-* Make sure the folder exists in `wwwroot/` before running the app (or it will be created on demand).
+- `wwwroot/uploads/` is used to save uploaded images and thumbnails at runtime.
+- This folder is ignored by Git and **will not be pushed to GitHub**.
+- Make sure the folder exists in `wwwroot/` before running the app (or it will be created on demand).
 
 ---
 
