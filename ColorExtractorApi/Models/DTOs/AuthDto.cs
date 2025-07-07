@@ -1,6 +1,25 @@
 namespace ColorExtractorApi.Models.DTOs
 {
-    public class AuthResponse
+    public class LoginRequestDto
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class RegisterRequestDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Surname { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class RefreshRequestDto
+    {
+        public string RefreshToken { get; set; } = string.Empty;
+    }
+
+    public class AuthResponseDto
     {
         public bool Success { get; internal set; } // Was logi/register successful or not
         public string Message { get; internal set; } = string.Empty; // Success/error message
@@ -11,4 +30,6 @@ namespace ColorExtractorApi.Models.DTOs
         public DateTime RefreshTokenExpiresAt { get; set; } // Refresh token expiry
         public UserDto? User { get; set; } // Return user details
     }
+
+
 }

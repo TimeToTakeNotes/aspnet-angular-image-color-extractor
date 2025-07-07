@@ -19,12 +19,12 @@ namespace ColorExtractorApi.Services
             _jwtUtils = jwtUtils;
         }
 
-        public async Task<AuthResponse> RegisterAsync(RegisterRequest model)
+        public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto model)
         {
             var existingUser = await _userRepository.GetByEmailAsync(model.Email);
             if (existingUser != null)
             {
-                return new AuthResponse { Success = false, Message = "Email already registered." };
+                return new AuthResponseDto { Success = false, Message = "Email already registered." };
             }
 
             var passwordHasher = new PasswordHasher<User>();
@@ -44,7 +44,7 @@ namespace ColorExtractorApi.Services
 
             await _refreshRepository.AddRefreshTokenAsync(refreshToken);
 
-            return new AuthResponse
+            return new AuthResponseDto
             {
                 Success = true,
                 Message = "Registration successful.",
@@ -57,12 +57,12 @@ namespace ColorExtractorApi.Services
             };
         }
 
-        public async Task<AuthResponse> LoginAsync(LoginRequest model)
+        public async Task<AuthResponseDto> LoginAsync(LoginRequestDto model)
         {
             var user = await _userRepository.GetByEmailAsync(model.Email);
             if (user == null)
             {
-                return new AuthResponse { Success = false, Message = "Invalid credentials." };
+                return new AuthResponseDto { Success = false, Message = "Invalid credentials." };
             }
 
             var passwordHasher = new PasswordHasher<User>();
@@ -70,7 +70,7 @@ namespace ColorExtractorApi.Services
 
             if (result == PasswordVerificationResult.Failed)
             {
-                return new AuthResponse { Success = false, Message = "Invalid credentials." };
+                return new AuthResponseDto { Success = false, Message = "Invalid credentials." };
             }
 
             // Generate all tokens:
@@ -78,7 +78,7 @@ namespace ColorExtractorApi.Services
 
             await _refreshRepository.AddRefreshTokenAsync(refreshToken);
 
-            return new AuthResponse
+            return new AuthResponseDto
             {
                 Success = true,
                 Message = "Login successful.",
@@ -91,12 +91,12 @@ namespace ColorExtractorApi.Services
             };
         }
 
-        public async Task<AuthResponse> RefreshTokenAsync(string refreshTokenStr)
+        public async Task<AuthResponseDto> RefreshTokenAsync(string refreshTokenStr)
         {
             var refreshToken = await _refreshRepository.GetRefreshTokenAsync(refreshTokenStr);
             if (refreshToken == null || refreshToken.IsRevoked || refreshToken.ExpiresAt < DateTime.UtcNow)
             {
-                return new AuthResponse { Success = false, Message = "Invalid or expired refresh token." };
+                return new AuthResponseDto { Success = false, Message = "Invalid or expired refresh token." };
             }
 
             // Revoke old refresh token
@@ -109,7 +109,7 @@ namespace ColorExtractorApi.Services
 
             await _refreshRepository.AddRefreshTokenAsync(newRefreshToken);
 
-            return new AuthResponse
+            return new AuthResponseDto
             {
                 Success = true,
                 Message = "Token refreshed.",

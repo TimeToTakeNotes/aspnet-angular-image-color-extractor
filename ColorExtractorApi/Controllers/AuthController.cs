@@ -20,7 +20,7 @@ namespace ColorExtractorApi.Controllers
 
         // Registers a new user and returns an auth token if successful.
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
         {
             var response = await _authService.RegisterAsync(request);
 
@@ -42,7 +42,7 @@ namespace ColorExtractorApi.Controllers
 
         // Authenticates an existing user and returns a token if credentials are valid.
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace ColorExtractorApi.Controllers
 
         // Accepts a refresh token and returns new access + refresh tokens if valid.
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequestDto request)
         {
             var refreshToken = Request.Cookies["refresh_token"];
             if (string.IsNullOrWhiteSpace(refreshToken))

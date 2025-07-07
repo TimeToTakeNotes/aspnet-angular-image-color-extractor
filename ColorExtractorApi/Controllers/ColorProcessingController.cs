@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ColorExtractorApi.Services;
+using ColorExtractorApi.Models;
 
 namespace ColorExtractorApi.Controllers
 {
@@ -80,12 +81,11 @@ namespace ColorExtractorApi.Controllers
             var images = await _imageService.GetImagesByUserAsync(userId.Value);
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
             
-             var result = images.Select(img => new
+             var result = images.Select(img => new ImageListItemDto
             {
-                img.Id,
+                Id = img.Id,
                 ThumbnailUrl = $"{baseUrl}/{img.ThumbnailPath}",
-                ImageUrl = $"{baseUrl}/{img.ImagePath}",
-                img.HexColor
+                HexColor = img.HexColor
             });
 
             return Ok(result);
@@ -107,12 +107,14 @@ namespace ColorExtractorApi.Controllers
 
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
-            return Ok(new
+            var result = new ImageDetailDto
             {
-                ImageId = img.Id,
+                Id = img.Id,
                 ImageUrl = $"{baseUrl}/{img.ImagePath}",
-                img.HexColor
-            });
+                HexColor = img.HexColor
+            };
+
+            return Ok(result);
         }
 
         // Helper: Extracts userId from token claims
