@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ImageService, UploadResponse } from '../image.service'; // Import UploadResponse
+import { ImageService, UploadResponse } from '../../services/image.service'; // Import UploadResponse
 
 @Component({
   selector: 'app-upload',

@@ -30,7 +30,7 @@ export interface UploadResponse {
   providedIn: 'root'
 })
 export class ImageService {
-  private apiUrl = 'http://localhost:5176/api/image'; // Base URL
+  private apiUrl = 'http://localhost:5176/api/image'; // Base URL for images
 
   constructor(private http: HttpClient) { }
 

@@ -1,6 +1,8 @@
 <!-- This content will show on every page -->
-<body class="app-container">
+<div class="app-container">
+  <button class="button" *ngIf="isLoggedIn" (click)="onLogout()">Logout</button>
+
   <div class="app-form">
     <router-outlet><!-- Other components appear here (depending on url) --></router-outlet>
   </div>
-</body>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ImageService, ImageListItem } from '../image.service'; // Import ImageListItem
+import { ImageService, ImageListItem } from '../../services/image.service'; // Import ImageListItem
 
 @Component({
   selector: 'app-image-list',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ImageService, ImageDetail } from '../image.service';
+import { ImageService, ImageDetail } from '../../services/image.service';
 
 @Component({
   selector: 'app-image-detail',

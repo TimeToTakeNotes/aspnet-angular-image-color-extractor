@@ -7,7 +7,7 @@ namespace ColorExtractorApi.Controllers.Helpers
             var accessCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, // Use HTTPS in production
+                Secure = false, // Use HTTPS in production
                 SameSite = SameSiteMode.Strict,
                 Expires = accessExpires
             };
@@ -15,7 +15,7 @@ namespace ColorExtractorApi.Controllers.Helpers
             var refreshCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = false, // Use HTTPS in production
                 SameSite = SameSiteMode.Strict,
                 Expires = refreshExpires
             };

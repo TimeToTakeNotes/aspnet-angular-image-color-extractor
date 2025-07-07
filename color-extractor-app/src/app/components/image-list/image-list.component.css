@@ -40,6 +40,15 @@ img:hover {
   transform: scale(1.05);
 }
 
+.color-box {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #000;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
 .back {
   display: inline-block;
   background-color: #4a90e2;

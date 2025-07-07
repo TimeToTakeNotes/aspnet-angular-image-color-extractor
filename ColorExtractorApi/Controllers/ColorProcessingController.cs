@@ -78,7 +78,17 @@ namespace ColorExtractorApi.Controllers
             }
 
             var images = await _imageService.GetImagesByUserAsync(userId.Value);
-            return Ok(images);
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            
+             var result = images.Select(img => new
+            {
+                img.Id,
+                ThumbnailUrl = $"{baseUrl}/{img.ThumbnailPath}",
+                ImageUrl = $"{baseUrl}/{img.ImagePath}",
+                img.HexColor
+            });
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

@@ -1,0 +1,18 @@
+<h1>Uploaded Images</h1>
+
+<div *ngIf="isLoading" class="info-text">Loading images...</div>
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<ul *ngIf="!isLoading && !errorMessage">
+    <li *ngFor="let image of images">
+        <a [routerLink]="['/images', image.id]">
+            <img [src]="image.thumbnailUrl" alt="Thumbnail" />
+        </a>
+        <p>Centre Pixel Hex Color: <span>{{ image.hexColor }}</span>
+            <span class="color-box" [style.background-color]="image.hexColor"></span>
+        </p>
+    </li>
+    <li *ngIf="images.length === 0 && !isLoading">No images uploaded yet.</li>
+</ul>
+
+<a routerLink="/" class="back global-button">Back to Home</a>

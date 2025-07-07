@@ -2,12 +2,13 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 using ColorExtractorApi.Data;
-using ColorExtractorApi.Helpers;
 using ColorExtractorApi.Repository;
 using ColorExtractorApi.Services;
+using ColorExtractorApi.Services.Helpers;
 
 var MyAllowFrontend = "myAllowFrontend";
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,8 @@ builder.Services.AddCors(options =>
         policy => policy
             .WithOrigins("http://localhost:4200") // frontend URL
             .AllowAnyHeader()
-            .AllowAnyMethod());
+            .AllowAnyMethod()
+            .AllowCredentials());
 });
 
 // Get env var SERVER_NAME or fallback to null if not set
@@ -102,7 +104,17 @@ app.Lifetime.ApplicationStarted.Register(() =>
     Console.WriteLine("Connected to DB: " + db.Database.GetDbConnection().ConnectionString);
 });
 
-app.UseStaticFiles();
+app.Use(async (context, next) =>
+{
+    if (context.Request.Cookies.TryGetValue("access_token", out var accessToken))
+    {
+        // Add Authorization header with Bearer scheme
+        context.Request.Headers["Authorization"] = "Bearer " + accessToken;
+    }
+    await next();
+});
+
+app.UseStaticFiles(); // Serve wwwroot folder
 app.UseRouting();
 app.UseCors(MyAllowFrontend);
 app.UseAuthentication();

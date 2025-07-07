@@ -1,13 +1,13 @@
 <h1>Image Details</h1>
 
-<div *ngIf="isLoading" style="text-align: center; margin-top: 20px;">Loading image details...</div>
-<div *ngIf="errorMessage" style="color: red; text-align: center; margin-top: 20px;">{{ errorMessage }}</div>
+<div *ngIf="isLoading" class="info-text">Loading image details...</div>
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
 <ng-container *ngIf="image && !isLoading">
   <div class="img-detail-container">
     <img [src]="image.imageUrl" alt="Uploaded Image"/>
     <p>Centre Pixel Hex Color: <span>{{ image.hexColor }}</span>
-    <span class="color-box" [style.background-color]="image.hexColor"></span>
+      <span class="color-box" [style.background-color]="image.hexColor"></span>
     </p>
     <a routerLink="/images" class="global-button">Back to List</a>
   </div>

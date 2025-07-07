@@ -8,7 +8,7 @@
   <button type="submit" [disabled]=" isUploading" class="global-button">
     {{ isUploading ? 'Uploading...' : 'Upload' }}
   </button>
-  <p *ngIf="errorMessage" style="color: red; text-align: center; margin-top: 15px;">{{ errorMessage }}</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 </form>
 
 <ng-container *ngIf="uploadedImageUrl">

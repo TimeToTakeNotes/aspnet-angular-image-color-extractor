@@ -86,6 +86,8 @@ namespace ColorExtractorApi.Controllers
                 return Unauthorized(new { Message = "User not found." });
             }
 
+            
+
             return Ok(userDto);
         }
 
