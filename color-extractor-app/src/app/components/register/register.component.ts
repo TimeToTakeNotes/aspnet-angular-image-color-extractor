@@ -4,10 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, RegisterRequest } from '../../services/auth.service';
 
+// Material Design:
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterModule,
+    //Material Design:
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -42,7 +57,7 @@ export class RegisterComponent {
       next: res => {
         console.log('Register successful:', res);
         this.isLoading = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home']); // Navigate to home after successful registration
       },
       error: err => {
         console.error('Register failed:', err);

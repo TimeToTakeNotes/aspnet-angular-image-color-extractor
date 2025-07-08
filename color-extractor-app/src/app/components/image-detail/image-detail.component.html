@@ -1,14 +1,55 @@
-<h1>Image Details</h1>
+<div class="image-detail-container">
+  <h1><mat-icon>photo</mat-icon> Image Details</h1>
 
-<div *ngIf="isLoading" class="info-text">Loading image details...</div>
-<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-
-<ng-container *ngIf="image && !isLoading">
-  <div class="img-detail-container">
-    <img [src]="image.imageUrl" alt="Uploaded Image"/>
-    <p>Centre Pixel Hex Color: <span>{{ image.hexColor }}</span>
-      <span class="color-box" [style.background-color]="image.hexColor"></span>
-    </p>
-    <a routerLink="/images" class="global-button">Back to List</a>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="center loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p class="loading-text">Loading image details...</p>
   </div>
-</ng-container>
+
+  <!-- Error Message -->
+  <mat-card *ngIf="errorMessage && !isLoading" class="error-card">
+    <mat-card-content>
+      <mat-icon color="warn">error</mat-icon>
+      <p>{{ errorMessage }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Image Details -->
+  <mat-card *ngIf="image && !isLoading" class="detail-card">
+    <mat-card-header>
+    </mat-card-header>
+
+    <img mat-card-image [src]="image.imageUrl" alt="Uploaded Image" class="detail-image"/>
+
+    <mat-card-content>
+      <div class="image-color">
+        <div class="color-info">
+          <span class="color-label"><mat-icon color="primary">palette</mat-icon> Centre Pixel Hex Color:</span>
+          <div class="color-display">
+            <span class="hex-color">{{ image.hexColor }}</span>
+            <span class="color-box" [style.background-color]="image.hexColor"></span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-container">
+      <a routerLink="/" 
+        class="global-button mat-elevation-z2 mat-button-content" 
+        mat-raised-button
+        color="primary"
+      >
+        <mat-icon>arrow_back</mat-icon> Back to Home
+      </a>
+      <a routerLink="/images" 
+        class="global-button mat-elevation-z2 mat-button-content" 
+        mat-raised-button
+        color="accent"
+      >
+        <mat-icon>image</mat-icon> Go to Image List
+      </a>
+    </div>
+  </mat-card>
+</div>

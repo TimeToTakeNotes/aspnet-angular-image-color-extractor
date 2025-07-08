@@ -1,44 +1,132 @@
-.img-detail-container {
+.image-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.loading-state {
+  flex-direction: column;
+  gap: 1rem;
+  margin: 3rem 0;
+}
+
+.loading-text {
+  margin: 0;
+  color: #666;
+}
+
+.error-card {
+  max-width: 500px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.error-card mat-card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  gap: 1rem;
+}
+
+.error-card mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.detail-card {
+  margin-top: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.detail-card mat-card-header {
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+}
+
+.detail-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.detail-image {
+  max-height: 500px;
+  object-fit: contain;
+  background-color: #f9f9f9;
+}
+
+.image-color {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.color-info {
+  flex: 1;
+  text-align: center;
+}
+
+.color-label {
+  display: block;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.color-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hex-color {
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  background-color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
 }
 
 .color-box {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  border: 1px solid #000;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-img {
-  max-width: 500px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
-}
-
-p {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
-
-a {
-  display: inline-block;
-  background-color: #4a90e2;
-  color: white;
-  text-decoration: none;
-  padding: 12px 28px;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #ccc;
   border-radius: 6px;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 3px 8px rgba(74, 144, 226, 0.4);
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-a:hover {
-  background-color: #357ABD;
-  box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
+mat-card-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .image-detail-container {
+    padding: 1rem;
+  }
+  
+  .detail-image {
+    max-height: 300px;
+  }
+  
+  .color-analysis {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }

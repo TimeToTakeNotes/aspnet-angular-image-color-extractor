@@ -16,10 +16,10 @@ export class AuthGuard implements CanActivate {
     return this.authService.isLoggedIn().pipe(
       tap(loggedIn => {
         if (!loggedIn) {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login']); // Redirect unauthenticaaed users
         }
       }),
-      map(loggedIn => loggedIn)
+      map(loggedIn => loggedIn) // Pass-through value to fulfill guard requirement
     );
   }
 }

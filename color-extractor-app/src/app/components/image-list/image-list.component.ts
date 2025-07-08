@@ -1,12 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ImageService, ImageListItem } from '../../services/image.service'; // Import ImageListItem
+import { ImageService, ImageListItem } from '../../services/image.service';
+
+// Material Design:
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-image-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink,
+    // Material Design:
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule
+  ],
   templateUrl: './image-list.component.html',
   styleUrls: ['./image-list.component.css']
 })

@@ -1,18 +1,45 @@
 <h1>Uploaded Images</h1>
 
+<!-- Loading State -->
 <div *ngIf="isLoading" class="info-text">Loading images...</div>
+
+<!-- Error Message -->
 <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
+<!-- Image List -->
 <ul *ngIf="!isLoading && !errorMessage">
-    <li *ngFor="let image of images">
-        <a [routerLink]="['/images', image.id]">
-            <img [src]="image.thumbnailUrl" alt="Thumbnail" />
-        </a>
-        <p>Centre Pixel Hex Color: <span>{{ image.hexColor }}</span>
-            <span class="color-box" [style.background-color]="image.hexColor"></span>
-        </p>
-    </li>
-    <li *ngIf="images.length === 0 && !isLoading">No images uploaded yet.</li>
+
+  <!-- Individual Image Item -->
+  <li *ngFor="let image of images">
+    <!-- Image Link -->
+    <a [routerLink]="['/images', image.id]">
+      <img [src]="image.thumbnailUrl" alt="Thumbnail" />
+    </a>
+
+    <!-- Color Info with Tooltip -->
+    <p>
+      Centre Pixel Hex Color:
+      <span
+        class="color-box"
+        [style.background-color]="image.hexColor"
+        [matTooltip]="image.hexColor"
+        [matTooltipPosition]="'below'"
+        [matTooltipShowDelay]="300"
+      ></span>
+    </p>
+  </li>
+
+  <!-- Empty State -->
+  <li *ngIf="images.length === 0 && !isLoading">No images uploaded yet.</li>
 </ul>
 
-<a routerLink="/" class="back global-button">Back to Home</a>
+<!-- Back Button -->
+<div class="btn-container">
+    <a routerLink="/" 
+    class="global-button mat-elevation-z2 mat-button-content" 
+    mat-raised-button
+    color="primary"
+    >
+    <mat-icon>arrow_back</mat-icon> Back to Home
+    </a>
+</div>

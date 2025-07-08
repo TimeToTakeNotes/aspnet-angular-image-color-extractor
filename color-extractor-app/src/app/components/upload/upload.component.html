@@ -1,25 +1,78 @@
 <h1>Upload an Image</h1>
 
-<form (ngSubmit)="onUpload()">
-  <p>
-    <label for="imageUpload">Choose Image:</label>
-    <input type="file" id="imageUpload" (change)="onFileSelected($event)" accept="image/*">
-  </p>
-  <button type="submit" [disabled]=" isUploading" class="global-button">
+<!-- Upload Form -->
+<form (ngSubmit)="onUpload()" class="upload-form">
+
+  <!-- File Input Section -->
+  <div class="file-input-wrapper">
+    <label for="imageUpload" class="file-label">Select Image</label>
+    
+    <!-- File Input Field -->
+    <div class="file-input-container">
+      <input
+        type="file"
+        id="imageUpload"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        [disabled]="isUploading"
+      />
+    </div>
+  </div>
+
+  <!-- Upload Button -->
+  <button
+    class="global-button mat-elevation-z2 mat-button-content"
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="isUploading"
+  >
+    <mat-icon>cloud_upload</mat-icon>
     {{ isUploading ? 'Uploading...' : 'Upload' }}
   </button>
+
+  <!-- Loading Spinner During Upload -->
+  <div *ngIf="isUploading" class="center" style="margin-top: 1rem;">
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+
+  <!-- Error Message Display -->
   <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 </form>
 
-<ng-container *ngIf="uploadedImageUrl">
+<!-- Display Uploaded Image Result -->
+<div class="upload-result" *ngIf="uploadedImageUrl">
   <h2>Uploaded Image</h2>
-  <img class="img" [src]="uploadedImageUrl" alt="Uploaded Image">
-  <p>Centre Pixel Hex Color: <span>{{ hexColor }}</span>
+
+  <!-- Uploaded Image Preview -->
+  <img class="img" [src]="uploadedImageUrl" alt="Uploaded Image" />
+
+  <!-- Center Pixel Color Info -->
+  <p>
+    Centre Pixel Hex Color: <span>{{ hexColor }}</span>
     <span class="color-box" [style.background-color]="hexColor"></span>
   </p>
-</ng-container>
+</div>
 
-<div class="nav-buttons">
-  <a routerLink="/" class="global-button">Back to Home</a>
-  <a routerLink="/images" class="global-button">Go to Image List</a>
+<!-- Navigation Buttons -->
+<div class="btn-container">
+  <!-- Home Button -->
+  <a
+    routerLink="/"
+    class="global-button mat-elevation-z2 mat-button-content"
+    mat-raised-button
+    color="primary"
+  >
+    <mat-icon>arrow_back</mat-icon> Back to Home
+  </a>
+
+  <!-- Image List Button -->
+  <a
+    routerLink="/images"
+    class="global-button mat-elevation-z2 mat-button-content"
+    mat-raised-button
+    color="accent"
+  >
+    <mat-icon>image</mat-icon> Go to Image List
+  </a>
 </div>

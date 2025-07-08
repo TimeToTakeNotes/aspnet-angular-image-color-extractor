@@ -1,22 +1,10 @@
-h1 {
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
+/* .full-width {
   width: 100%;
-  padding: 6px;
-  box-sizing: border-box;
 }
 
-button:disabled {
-  background-color: #90caf9;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+  */

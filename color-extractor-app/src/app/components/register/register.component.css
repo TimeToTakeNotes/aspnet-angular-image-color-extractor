@@ -1,3 +1,19 @@
-button:disabled {
-  background-color: #90caf9;
+/* .full-width {
+  width: 100%;
 }
+
+.mat-form-field input {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.mat-form-field ::placeholder {
+  color: #888;
+  opacity: 1;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  min-height: 48px;
+}
+*/

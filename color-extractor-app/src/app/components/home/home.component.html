@@ -1,15 +1,46 @@
 <div class="welcome-container" *ngIf="isLoggedIn">
   Welcome, {{ userName }}!
 </div>
+
+<!-- Home  -->
 <div class="home-wrapper">
   <header class="home-header">
     <h1 class="home-title">Image Color Extractor</h1>
   </header>
 
+  <!-- Navigation Buttons -->
   <div class="btn-container">
-    <a routerLink="/upload" class="global-button">Upload an Image</a>
-    <a routerLink="/images" class="global-button">Go to Image List</a>
+    <a
+      routerLink="/upload"
+      class="global-button mat-elevation-z2 mat-button-content"
+      mat-raised-button
+      color="primary"
+    >
+      <mat-icon class="button-icon">upload</mat-icon>
+      <span>Upload an Image</span>
+    </a>
+
+    <a
+      routerLink="/images"
+      class="global-button mat-elevation-z2 mat-button-content"
+      mat-raised-button
+      color="accent"
+    >
+      <mat-icon class="button-icon">image</mat-icon>
+      <span>Go to Image List</span>
+    </a>
   </div>
 
-  <button class="logout-btn" *ngIf="isLoggedIn" (click)="onLogout()">Logout</button>
+  <!-- Logout Button -->
+  <button
+    mat-mini-fab
+    color="warn"
+    class="logout-btn"
+    *ngIf="isLoggedIn"
+    (click)="onLogout()"
+    matTooltip="Logout"
+    aria-label="Logout"
+  >
+    <mat-icon>logout</mat-icon>
+  </button>
 </div>

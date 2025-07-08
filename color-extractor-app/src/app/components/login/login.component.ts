@@ -4,10 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, LoginRequest, AuthResponse } from '../../services/auth.service';
 
+// Material Design:
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterModule,
+    //Material Design:
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -38,7 +53,7 @@ export class LoginComponent {
         console.log('Logged in user:', res.user);
         this.isLoading = false;
 
-        this.router.navigate(['/home']); // Navigate to home 
+        this.router.navigate(['/home']); // Navigate to home after login
       },
       error: (err) => {
         console.error('Login failed:', err);
