@@ -11,10 +11,12 @@ namespace ColorExtractorApi.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+        private readonly IWebHostEnvironment _env;
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IWebHostEnvironment env, IAuthService authService)
         {
+            _env = env;
             _authService = authService;
         }
 
@@ -34,7 +36,8 @@ namespace ColorExtractorApi.Controllers
                 response.Token!,
                 response.RefreshToken!,
                 response.ExpiresAt,
-                response.RefreshTokenExpiresAt
+                response.RefreshTokenExpiresAt,
+                _env
             );
 
             return Ok(new { response.Message, response.User });
@@ -62,7 +65,8 @@ namespace ColorExtractorApi.Controllers
                 response.Token!,
                 response.RefreshToken!,
                 response.ExpiresAt,
-                response.RefreshTokenExpiresAt
+                response.RefreshTokenExpiresAt,
+                _env
             );
 
 
@@ -113,7 +117,8 @@ namespace ColorExtractorApi.Controllers
                 response.Token!,
                 response.RefreshToken!,
                 response.ExpiresAt,
-                response.RefreshTokenExpiresAt
+                response.RefreshTokenExpiresAt,
+                _env
             );
 
             return Ok(new { response.Message });

@@ -17,7 +17,18 @@
 
   <!-- Image Details -->
   <mat-card *ngIf="image && !isLoading" class="detail-card">
-    <mat-card-header>
+    <mat-card-header class="detail-card-header">
+      <button 
+        mat-icon-button 
+        color="warn" 
+        class="delete-button" 
+        aria-label="Delete Image" 
+        (click)="deleteImage()"
+        matTooltip="Delete Image"
+        matTooltipPosition="above"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
     </mat-card-header>
 
     <img mat-card-image [src]="image.imageUrl" alt="Uploaded Image" class="detail-image"/>

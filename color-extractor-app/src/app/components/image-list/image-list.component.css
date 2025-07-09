@@ -1,3 +1,9 @@
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 ul {
   list-style: none;
   padding: 0;

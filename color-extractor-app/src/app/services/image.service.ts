@@ -13,7 +13,7 @@ export interface ImageListItem {
 
 // For single img detail (GET /api/image/{id})
 export interface ImageDetail {
-  imageId: number;
+  id: number;
   imageUrl: string;
   hexColor: string;
 }
@@ -54,6 +54,12 @@ export class ImageService {
   getImageDetail(id: number): Observable<ImageDetail> {
     // Backend [HttpGet("{id}")] endpoint
     return this.http.get<ImageDetail>(`${this.apiUrl}/${id}`, {
+      withCredentials: true
+    });
+  }
+
+  deleteImage(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`, {
       withCredentials: true
     });
   }

@@ -8,5 +8,6 @@ namespace ColorExtractorApi.Services
         // Task<IEnumerable<ImageColor>> GetAllImagesAsync();
         Task<ImageColor?> GetImageByImageIdAsync(int imageId, int userId);
         Task<IEnumerable<ImageColor>> GetImagesByUserAsync(int userId);
+        Task<bool> DeleteImageAsync(int imageId, int userId);
     }
 }

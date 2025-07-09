@@ -42,5 +42,18 @@ namespace ColorExtractorApi.Repository
                 .Where(img => img.UserId == userId)
                 .ToListAsync();
         }
+
+        // Delete image using imageId
+        public async Task<bool> DeleteImageAsync(int imageId, int userId)
+        {
+            var image = await _context.ImageColors.FirstOrDefaultAsync(i => i.Id == imageId && i.UserId == userId);
+            
+            if (image == null)
+                return false;
+
+            _context.ImageColors.Remove(image);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

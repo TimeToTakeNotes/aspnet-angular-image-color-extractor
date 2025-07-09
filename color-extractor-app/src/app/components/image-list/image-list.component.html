@@ -1,4 +1,16 @@
-<h1>Uploaded Images</h1>
+<div class="list-header">
+  <h1>Uploaded Images</h1>
+  <!-- Back Button -->
+  <a routerLink="/" 
+    class="global-button mat-elevation-z2 mat-button-content" 
+    mat-raised-button
+    color="primary"
+    >
+    <mat-icon>arrow_back</mat-icon> Back to Home
+  </a>
+</div>
+
+
 
 <!-- Loading State -->
 <div *ngIf="isLoading" class="info-text">Loading images...</div>
@@ -33,13 +45,3 @@
   <li *ngIf="images.length === 0 && !isLoading">No images uploaded yet.</li>
 </ul>
 
-<!-- Back Button -->
-<div class="btn-container">
-    <a routerLink="/" 
-    class="global-button mat-elevation-z2 mat-button-content" 
-    mat-raised-button
-    color="primary"
-    >
-    <mat-icon>arrow_back</mat-icon> Back to Home
-    </a>
-</div>

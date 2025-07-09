@@ -80,8 +80,8 @@ namespace ColorExtractorApi.Controllers
 
             var images = await _imageService.GetImagesByUserAsync(userId.Value);
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            
-             var result = images.Select(img => new ImageListItemDto
+
+            var result = images.Select(img => new ImageListItemDto
             {
                 Id = img.Id,
                 ThumbnailUrl = $"{baseUrl}/{img.ThumbnailPath}",
@@ -115,6 +115,21 @@ namespace ColorExtractorApi.Controllers
             };
 
             return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteImage(int id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized();
+
+            var deleted = await _imageService.DeleteImageAsync(id, userId);
+
+            if (!deleted)
+                return NotFound(new { Message = "Image not found." });
+
+            return Ok(new { Message = "Image deleted successfully." });
         }
 
         // Helper: Extracts userId from token claims

@@ -2,7 +2,7 @@
 <div class="app-container">
 
   <!-- Welcome Message -->
-  <div class="welcome-container" *ngIf="isLoggedIn">
+  <div class="welcome-container" *ngIf="isLoggedIn$ | async">
     Welcome, {{ userName }}!
   </div>
 
@@ -11,7 +11,7 @@
       mat-mini-fab
       color="warn"
       class="logout-btn"
-      *ngIf="isLoggedIn"
+      *ngIf="isLoggedIn$ | async"
       (click)="onLogout()"
       matTooltip="Logout"
       aria-label="Logout"

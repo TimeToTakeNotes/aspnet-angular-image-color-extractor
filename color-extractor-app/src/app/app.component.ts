@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,24 +21,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class AppComponent implements OnInit {
   title = 'Image Color Extractor';
 
-  isLoggedIn = false;
-  userName: string = '';
-
   constructor(private authService: AuthService, private router: Router) {}
 
+  isLoggedIn$!: Observable<boolean>;
+  userName: string = '';
+
   ngOnInit(): void {
-    this.authService.isLoggedIn().subscribe(status => {
-      this.isLoggedIn = status;
-      if (status) {
-        this.authService.getMe().subscribe({
-          next: user => {
-            this.userName = user.name;
-          },
-          error: err => {
-            console.error('Failed to fetch user info', err);
-          }
-        });
-      }
+    this.authService.checkLoginStatus();
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+
+    this.authService.currentUser$.subscribe(user => {
+      this.userName = user?.name ?? '';
     });
   }
 
@@ -45,7 +39,6 @@ export class AppComponent implements OnInit {
     this.authService.logout().subscribe({
       next: res => {
         console.log(res.message);
-        this.isLoggedIn = false;
         this.router.navigate(['/login']);
       },
       error: err => {

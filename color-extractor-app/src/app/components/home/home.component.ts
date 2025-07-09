@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { Router, RouterLink } from '@angular/router'; 
+import { RouterLink } from '@angular/router'; 
 
 // Angular Material modules:
 import { MatToolbarModule } from '@angular/material/toolbar';

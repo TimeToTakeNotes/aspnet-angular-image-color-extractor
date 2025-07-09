@@ -11,6 +11,9 @@ obj/
 # Image Uploads folder
 /wwwroot/uploads/
 
+# SSL Certs
+SSLCerts/
+
 # Visual Studio Code
 .vscode/
 

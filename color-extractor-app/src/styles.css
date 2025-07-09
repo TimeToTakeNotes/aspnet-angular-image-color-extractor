@@ -7,6 +7,7 @@
   --color-secondary: #acbfe6;
   --color-background: #F5F7FA;
   --color-surface: #FFFFFF;
+  --color-text-headers: white;
   --color-text-primary: #222222;
   --color-text-secondary: #666666;
   --color-success: #28A745;
@@ -52,6 +53,7 @@ a.global-button:hover, button.global-button:hover {
   background-color: var(--color-primary-dark);
   color: white !important;
   box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-container {
@@ -64,7 +66,7 @@ a.global-button:hover, button.global-button:hover {
 h1, h2 {
   text-align: center;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-text-headers);
   margin-top: 1rem;
 }
 

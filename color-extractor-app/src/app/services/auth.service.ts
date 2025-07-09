@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, map, catchError, tap, BehaviorSubject } from 'rxjs';
+import { Observable, of, map, catchError, tap, BehaviorSubject, throwError } from 'rxjs';
 
 export interface LoginRequest {
   email: string;
@@ -30,7 +30,10 @@ export interface AuthResponse {
 export class AuthService {
   private apiUrl = 'http://localhost:5176/api/auth'; // Base URL for authentication
 
-  //public loginStatus$ = new BehaviorSubject<boolean>(false); // Track login status 
+  private currentUserSubject = new BehaviorSubject<any | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable(); // Track logged in user
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = this.isLoggedInSubject.asObservable(); // Track login status 
 
   constructor(private http: HttpClient) {}
 
@@ -39,7 +42,10 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, data, {
       withCredentials: true
     }).pipe(
-      tap(res => console.log('Login response:', res))
+      tap(() => {
+        this.isLoggedInSubject.next(true);
+        this.getMe().subscribe(); // This populates currentUserSubject
+      })
     );
   }
 
@@ -48,7 +54,10 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data, {
       withCredentials: true
     }).pipe(
-      tap(res => console.log('Register response:', res))
+      tap(() => {
+        this.isLoggedInSubject.next(true);
+        this.getMe().subscribe(); // This populates currentUserSubject
+      })
     );
   }
 
@@ -56,21 +65,12 @@ export class AuthService {
     // Backend [HttpPost("logout")] endpoint
     return this.http.post<{ message: string }>(`${this.apiUrl}/logout`, {}, {
       withCredentials: true
-    });
-  }
-
-  getMe(): Observable<any> {
-    // Backend [HttpPost("me")] endpoint
-    return this.http.get<any>(`${this.apiUrl}/me`, {
-      withCredentials: true
-    });
-  }
-
-  refresh(): Observable<{ message: string }> {
-    // Backend [HttpPost("refresh")] endpoint
-    return this.http.post<{ message: string }>(`${this.apiUrl}/refresh`, {}, {
-      withCredentials: true
-    });
+    }).pipe(
+      tap(() => {
+        this.isLoggedInSubject.next(false);
+        this.currentUserSubject.next(null);
+      })
+    );
   }
 
   // Returns an Observable<boolean> that emits true if logged in, false if not
@@ -79,5 +79,33 @@ export class AuthService {
       map(user => !!user), // If getMe succeeds, user is logged in
       catchError(() => of(false)) // On error (401 etc), not logged in
     );
+  }
+
+  // Checks if user is logged in so app.component parts can display
+  checkLoginStatus(): void {
+    this.getMe().subscribe({
+      next: () => this.isLoggedInSubject.next(true),
+      error: () => this.isLoggedInSubject.next(false)
+    });
+  }
+
+  getMe(): Observable<any> {
+    // Backend [HttpPost("me")] endpoint
+     return this.http.get<any>(`${this.apiUrl}/me`, {
+      withCredentials: true
+    }).pipe(
+      tap(user => this.currentUserSubject.next(user)),
+      catchError(err => {
+        this.currentUserSubject.next(null);
+        return throwError(() => err);
+      })
+    );
+  }
+
+  refresh(): Observable<{ message: string }> {
+    // Backend [HttpPost("refresh")] endpoint
+    return this.http.post<{ message: string }>(`${this.apiUrl}/refresh`, {}, {
+      withCredentials: true
+    });
   }
 }
