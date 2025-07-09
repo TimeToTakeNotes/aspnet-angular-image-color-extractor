@@ -1,19 +1,36 @@
 .app-container {
   height: 100vh;
-  background: linear-gradient(135deg, #4a90e2 0%, #f5f7fa 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
 .app-form {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.15);
   padding: 2rem 3rem;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); 
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
   max-width: 800px;
   width: 100%;
+  color: var(--color-text-primary);
+}
+
+.welcome-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-weight: bold;
+  font-size: 2rem;
+  color: white;
+}
+
+.logout-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
 }

@@ -1,5 +1,24 @@
 <!-- This content will show on every page -->
 <div class="app-container">
+
+  <!-- Welcome Message -->
+  <div class="welcome-container" *ngIf="isLoggedIn">
+    Welcome, {{ userName }}!
+  </div>
+
+  <!-- Logout Button -->
+    <button
+      mat-mini-fab
+      color="warn"
+      class="logout-btn"
+      *ngIf="isLoggedIn"
+      (click)="onLogout()"
+      matTooltip="Logout"
+      aria-label="Logout"
+    >
+      <mat-icon>logout</mat-icon>
+  </button>
+
   <div class="app-form">
     <router-outlet><!-- Other components appear here (depending on url) --></router-outlet>
   </div>

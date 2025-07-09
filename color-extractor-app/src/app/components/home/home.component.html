@@ -1,13 +1,9 @@
-<div class="welcome-container" *ngIf="isLoggedIn">
-  Welcome, {{ userName }}!
-</div>
+<!-- Home Component -->
+<header class="home-header">
+  <h1 class="home-title">Image Color Extractor</h1>
+</header>
 
-<!-- Home  -->
 <div class="home-wrapper">
-  <header class="home-header">
-    <h1 class="home-title">Image Color Extractor</h1>
-  </header>
-
   <!-- Navigation Buttons -->
   <div class="btn-container">
     <a
@@ -30,17 +26,4 @@
       <span>Go to Image List</span>
     </a>
   </div>
-
-  <!-- Logout Button -->
-  <button
-    mat-mini-fab
-    color="warn"
-    class="logout-btn"
-    *ngIf="isLoggedIn"
-    (click)="onLogout()"
-    matTooltip="Logout"
-    aria-label="Logout"
-  >
-    <mat-icon>logout</mat-icon>
-  </button>
 </div>
