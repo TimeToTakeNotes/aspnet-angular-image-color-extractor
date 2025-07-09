@@ -9,7 +9,7 @@ obj/
 *.sln.docstates
 
 # Image Uploads folder
-/wwwroot/uploads/
+/wwwroot/
 
 # SSL Certs
 SSLCerts/

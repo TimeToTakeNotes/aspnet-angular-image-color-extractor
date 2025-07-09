@@ -45,7 +45,13 @@ export class RegisterComponent {
   }
 
   onSubmit(): void {
-    if (!this.model.name || !this.model.surname || !this.model.email || !this.model.password) {
+    // Client-side input check
+    const nameValid = /^[a-zA-Z\s\-]{2,30}$/.test(this.model.name);
+    const surnameValid = /^[a-zA-Z\s\-]{2,30}$/.test(this.model.surname);
+    const emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.model.email);
+    const passwordStrong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/.test(this.model.password);
+
+    if (!nameValid || !surnameValid || !emailValid || !passwordStrong || this.passwordMismatch) {
       this.errorMessage = 'Please fill in all fields.';
       return;
     }
@@ -55,13 +61,11 @@ export class RegisterComponent {
 
     this.authService.register(this.model).subscribe({
       next: res => {
-        console.log('Register successful:', res);
         this.isLoading = false;
-        this.router.navigate(['/home']); // Navigate to home after successful registration
+        this.router.navigate(['/home']);
       },
       error: err => {
-        console.error('Register failed:', err);
-        this.errorMessage = (err.errorMessage && err.errorMessage.message) ? err.errorMessage.message : 'Registration failed.';
+        this.errorMessage = err?.error?.message || 'Registration failed.';
         this.isLoading = false;
       }
     });
