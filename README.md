@@ -1,22 +1,26 @@
 # ASP.NET Core + Angular Image Color Extractor
 
-A full-stack image color extractor application that allows users to upload images, extract the centre pixel color (in hex), generate thumbnails, and view uploaded images.
-The backend is built with **ASP.NET Core Web API**, and the frontend is built with **Angular (standalone components)**.
+A full-stack image color extractor application that allows users to upload images, extract the center pixel color (in hex), generate thumbnails, and view uploaded images.
+
+- **Backend**: ASP.NET Core Web API (.NET 7+)
+- **Frontend**: Angular (standalone components)
+- **Security**: JWT Auth via HttpOnly Cookies + CSRF Protection
 
 ---
 
 ## **Features**
 
-- Upload images → centre pixel color extracted
-- Thumbnail generated
-- Images path to wwwroot folder and data saved to SQL Server
-- View image list + details in Angular app
-- Secure user sign up/login with JWT stored as HttpOnly cookies (access + refresh tokens)
-- Token refresh and logout endpoints with cookie handling
-- Per-user image access enforced both on backend and frontend
-- Clean architecture: repository + service layers
-- Angular standalone components used for all views (Login, Register, Home, Upload, etc.)
-- Environment variable used for DB connection
+- Upload image → extract center pixel color
+- Thumbnail generation
+- Images saved in per-user folders under `wwwroot/uploads/{userId}/`
+- Secure user registration/login using JWT in HttpOnly cookies (access + refresh tokens)
+- CSRF protection via custom middleware
+- Token refresh + logout endpoints
+- View your image list and details (per-user access)
+- Image deletion removes both the DB entry and physical files (image + thumbnail)
+- Repository + service layer separation
+- Angular standalone components for clean architecture
+- Environment-based config support (`appsettings.Development.json`, env vars)
 
 ---
 
@@ -138,6 +142,7 @@ dotnet run
 ```
 
 The API will be available at: `http://localhost:5176`
+Images are saved per user under `wwwroot/uploads/{userId}/`
 
 ---
 
@@ -163,14 +168,25 @@ ng serve --open
 
 The frontend will be available at: `http://localhost:4200`
 
-### 3.4 Frontend Authentication:
+---
 
-- The Angular frontend uses auth.service.ts to handle login, logout, and token refresh by communicating with the backend API.
-- HttpOnly cookies are used for storing tokens securely, so tokens are not accessible via JavaScript on the client side.
-- Ensure HTTP requests include credentials (cookies) by configuring your Angular HttpClient calls appropriately (e.g., { withCredentials: true }).
-- Angular routes are protected using an `auth.guard`. Only logged-in users can access protected pages like Home, Upload, Images.
-- Standalone Register and Login components handle user authentication and navigation.
-- Register form includes client-side password confirmation validation.
+## Authentication & Security Notes:
+
+- Login, registration, and token refresh use HttpOnly cookies.
+- CSRF protection is handled by a custom .NET middleware (via X-CSRF-TOKEN header).
+- Angular HttpClient must set { withCredentials: true } for secure cookie transfer.
+- auth.guard.ts protects Angular routes.
+- Auth state is tracked with a reactive BehaviorSubject in auth.service.ts.
+
+---
+
+## File Storage
+
+- Uploaded images and thumbnails are stored in `wwwroot/uploads/{userId}/` with subfolder `thumbnails/`.
+- On image deletion, the system removes:
+  - The image file (e.g., uploads/5e2e23a9.png)
+  - The thumbnail (e.g., uploads/thumbnails/5e2e23a9_thumb.jpg)
+  - The corresponding DB record
 
 ---
 
@@ -185,21 +201,22 @@ The frontend will be available at: `http://localhost:4200`
 
 ## **.gitignore / uploads**
 
-- `wwwroot/uploads/` is used to save uploaded images and thumbnails at runtime.
-- This folder is ignored by Git and **will not be pushed to GitHub**.
-- Make sure the folder exists in `wwwroot/` before running the app (or it will be created on demand).
+- The `wwwroot/uploads/` folder is ignored in Git.
+- Folder structure is auto-created per user on first upload.
+- You don’t need to manually create these directories.
 
 ---
 
 ## **Example API endpoints**
 
-| Method | URL                   | Description                                 |
-| ------ | --------------------- | ------------------------------------------- |
-| `POST` | `/api/image/upload`   | Upload an image file                        |
-| `GET`  | `/api/image/my-images`| Get all uploaded images                     |
-| `GET`  | `/api/image/{id}`     | Get details of a specific image             |
-| `POST` | `/api/auth/register`  | Register a new user                         |
-| `POST` | `/api/auth/login`     | Authenticate user and return a JWT token    |
-| `GET`  | `/api/auth/me`        | Validate token and return current user info |
-| `POST` | `/api/auth/refresh`   | Refresh JWT tokens via HttpOnly cookies     |
-| `POST` | `/api/auth/logout`    | Clear auth cookies to logout                |
+| Method  | URL                   | Description                                 |
+| ------  | --------------------- | ------------------------------------------- |
+| `POST`  | `/api/image/upload`   | Upload image and extract color              |
+| `DELETE`| `/api/image/{id}`     | Delete image (DB + file system)             |
+| `GET`   | `/api/image/my-images`| Get current user's images (thumbnail list)  |
+| `GET`   | `/api/image/{id}`     | Get details of a specific image             |
+| `POST`  | `/api/auth/register`  | Register new user                           |
+| `POST`  | `/api/auth/login`     | Login and receive auth cookies              |
+| `GET`   | `/api/auth/me`        | Validate and return current user            |
+| `POST`  | `/api/auth/refresh`   | Refresh access token                        |
+| `POST`  | `/api/auth/logout`    | Invalidate session                          |
