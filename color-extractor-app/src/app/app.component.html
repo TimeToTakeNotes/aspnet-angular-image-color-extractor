@@ -6,18 +6,34 @@
     Welcome, {{ userName }}!
   </div>
 
-  <!-- Logout Button -->
-    <button
-      mat-mini-fab
-      color="warn"
-      class="logout-btn"
-      *ngIf="isLoggedIn$ | async"
-      (click)="onLogout()"
-      matTooltip="Logout"
-      aria-label="Logout"
-    >
-      <mat-icon>logout</mat-icon>
-  </button>
+  <!-- Burger button (moves depending on sidebar state) -->
+  <div
+    class="burger-container"
+    [ngClass]="{ 'burger-sidebar': sidebarOpen, 'burger-global': !sidebarOpen }"
+    *ngIf="isLoggedIn$ | async"
+  >
+    <input
+      type="checkbox"
+      id="checkbox"
+      (click)="onToggleSidebar()"
+      [checked]="sidebarOpen"
+      aria-label="Toggle sidebar"
+    />
+    <label for="checkbox" class="toggle">
+      <div class="bars" id="bar1"></div>
+      <div class="bars" id="bar2"></div>
+      <div class="bars" id="bar3"></div>
+    </label>
+  </div>
+
+  <!-- Sidebar -->
+  <app-sidebar
+    [isOpen]="sidebarOpen"
+    (toggleSidebar)="onToggleSidebar()"
+    (logout)="onLogout()"
+    *ngIf="isLoggedIn$ | async"
+  ></app-sidebar>
+
 
   <div class="app-form">
     <router-outlet><!-- Other components appear here (depending on url) --></router-outlet>

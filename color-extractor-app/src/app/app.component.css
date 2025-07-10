@@ -28,9 +28,90 @@
   color: white;
 }
 
-.logout-btn {
+/* From Uiverse.io by vinodjangid07 */ 
+#checkbox {
+  display: none;
+}
+
+/* Always-visible burger in top-right */
+.sidebar-navbar {
   position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 1000;
+  top: 1rem;
+  right: 1rem;
+  z-index: 202;
+}
+
+.toggle {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition-duration: 0.5s;
+}
+
+.bars {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-background);
+  border-radius: 4px;
+}
+
+#bar1,
+#bar3 {
+  width: 70%;
+}
+
+#bar2 {
+  transition-duration: 0.8s;
+}
+
+#checkbox:checked + .toggle .bars {
+  position: absolute;
+  transition-duration: .5s;
+  background-color: var(--color-primary-dark);
+  transition: background-color 0.3s ease
+}
+
+#checkbox:checked + .toggle #bar2 {
+  transform: scaleX(0);
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar1 {
+  width: 100%;
+  transform: rotate(45deg);
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar3 {
+  width: 100%;
+  transform: rotate(-45deg);
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle {
+  transition-duration: .5s;
+  transform: rotate(180deg);
+}
+
+/* Burger top-right when sidebar is closed */
+.burger-global {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 999;
+  transition: right 0.3s ease-in-out;
+}
+
+/* Burger moves to top-left of sidebar when it's open */
+.burger-sidebar {
+  position: fixed;
+  top: 1rem;
+  right: 200px; /* Matches sidebar width */
+  z-index: 999;
+  transition: right 0.3s ease-in-out;
 }

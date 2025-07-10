@@ -2,19 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
-
-// Angular Material modules:
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { Observable } from 'rxjs';
+// Services:
+import { AuthService } from './services/auth.service';
+// Components:
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [
+    RouterOutlet, 
+    CommonModule,
+    SidebarComponent
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
 
   isLoggedIn$!: Observable<boolean>;
   userName: string = '';
+  sidebarOpen = false;
 
   ngOnInit(): void {
     this.authService.checkLoginStatus();
@@ -35,6 +37,12 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // Global sidebar toggle
+  onToggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  // Logout btn logic here so app.component is single source of truth (Logout btn is now in sidebar html)
   onLogout(): void {
     this.authService.logout().subscribe({
       next: res => {

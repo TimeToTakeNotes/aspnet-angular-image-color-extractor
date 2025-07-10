@@ -1,0 +1,28 @@
+<div class="overlay" *ngIf="isOpen" (click)="isOpen = false"></div>
+
+<aside class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-header">
+    <!-- <button mat-icon-button (click)="isOpen = false" aria-label="Close sidebar">
+      <mat-icon>close</mat-icon>
+    </button> -->
+  </div>
+
+  <nav class="sidebar-content">
+    <a mat-button routerLink="/user" class="global-button sidebar-buttons">User Menu</a>
+  </nav>
+  <div class="sidebar-footer">
+
+    <!-- Logout Button -->
+    <button
+      mat-mini-fab
+      color="warn"
+      matTooltip="Logout"
+      aria-label="Logout"
+      (click)="logout.emit()"
+      class="global-button logout-button"
+    >
+      <mat-icon>logout</mat-icon>
+    </button>
+    
+  </div>
+</aside>
