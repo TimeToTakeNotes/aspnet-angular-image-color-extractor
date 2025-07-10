@@ -2,7 +2,7 @@
   <h2>Login</h2>
 
   <!-- Login Form -->
-  <form (ngSubmit)="onLogin()">
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
 
      <!-- Email Input -->
     <div class="auth-form">
@@ -15,7 +15,15 @@
           id="email"
           [(ngModel)]="email"
           required
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          #emailRef="ngModel"
         />
+        <mat-error *ngIf="emailRef.errors?.['required'] && emailRef.touched">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="emailRef.errors?.['pattern'] && emailRef.touched">
+          Enter a valid email.
+        </mat-error>
       </mat-form-field>
 
       <!-- Password Input -->
@@ -28,7 +36,14 @@
           id="password"
           [(ngModel)]="password"
           required
+          #passwordRef="ngModel"
         />
+        <mat-error *ngIf="passwordRef.errors?.['required'] && passwordRef.touched">
+          Password is required.
+        </mat-error>
+        <mat-error *ngIf="passwordRef.errors?.['minlength'] && passwordRef.touched">
+          Password must be at least 6 characters.
+        </mat-error>
       </mat-form-field>
 
       <!-- Login Button -->
@@ -37,7 +52,8 @@
         color="primary"
         class="global-button"
         type="submit"
-        [disabled]="isLoading"
+        aria-label="Login"
+        [disabled]="loginForm.invalid || isLoading"
       >
         {{ isLoading ? 'Logging in...' : 'Login' }}
       </button>

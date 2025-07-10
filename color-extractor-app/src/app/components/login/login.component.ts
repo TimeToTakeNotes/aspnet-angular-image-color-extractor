@@ -36,30 +36,29 @@ export class LoginComponent {
 
   onLogin(): void {
     if (!this.email || !this.password) {
-      this.errorMessage = 'Please enter both email and password.';
+      this.errorMessage = 'Please enter valid credentials.';
       return;
     }
+
+    // Trim values before submission
+    const emailTrimmed = this.email.trim();
+    const passwordTrimmed = this.password.trim();
+    
+    const loginData: LoginRequest = {
+      email: emailTrimmed,
+      password: passwordTrimmed
+    };
 
     this.isLoading = true;
     this.errorMessage = null;
 
-    const loginData: LoginRequest = {
-      email: this.email,
-      password: this.password
-    };
-
     this.authService.login(loginData).subscribe({
       next: (res: AuthResponse) => {
-        console.log('Logged in user:', res.user);
         this.isLoading = false;
-
         this.router.navigate(['/home']); // Navigate to home after login
       },
       error: (err) => {
-        console.error('Login failed:', err);
-        this.errorMessage = (err.error && err.error.message) 
-          ? err.error.message 
-          : 'Login failed. Please try again.';
+        this.errorMessage = err?.error?.message || 'Login failed. Please try again.';
         this.isLoading = false;
       }
     });

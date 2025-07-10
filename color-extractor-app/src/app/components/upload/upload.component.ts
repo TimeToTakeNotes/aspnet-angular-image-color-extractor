@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -34,18 +34,53 @@ export class UploadComponent {
   hexColor: string | null = null;
   errorMessage: string | null = null;
   isUploading = false;
+  isDragging = false;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(private imageService: ImageService) { }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-       // Reset previous upload state to show new results:
-      this.uploadedImageUrl = null;
-      this.hexColor = null;
-      this.errorMessage = null;
+      this.setFile(input.files[0]);
     }
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+
+    if (event.dataTransfer?.files?.length) {
+      const file = event.dataTransfer.files[0];
+      if (file.type.startsWith('image/')) {
+        this.setFile(file);
+      } else {
+        this.errorMessage = 'Only image files are allowed.';
+      }
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = true;
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = false;
+  }
+
+  private setFile(file: File): void {
+    this.selectedFile = file;
+    this.uploadedImageUrl = null;
+    this.hexColor = null;
+    this.errorMessage = null;
   }
 
   onUpload(): void {
@@ -58,19 +93,17 @@ export class UploadComponent {
     this.errorMessage = null;
 
     this.imageService.uploadImage(this.selectedFile).subscribe({
-      next: (response: UploadResponse) => { // Use UploadResponse interface
+      next: (response: UploadResponse) => {
         this.uploadedImageUrl = response.imageUrl;
         this.hexColor = response.hexColor;
         this.selectedFile = null;
+        this.fileInput.nativeElement.value = '';
         this.isUploading = false;
       },
       error: (err) => {
-        console.error('Upload error:', err);
         this.errorMessage = 'Failed to upload image. Please try again.';
         if (err.error && typeof err.error === 'string') {
           this.errorMessage = err.error;
-        } else if (err.status === 400 && err.error) {
-            this.errorMessage = 'Bad request: ' + JSON.stringify(err.error);
         }
         this.isUploading = false;
       }

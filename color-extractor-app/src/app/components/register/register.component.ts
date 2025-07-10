@@ -45,7 +45,14 @@ export class RegisterComponent {
   }
 
   onSubmit(): void {
-    // Client-side input check
+    // Trim all fields before validation
+    this.model.name = this.model.name.trim();
+    this.model.surname = this.model.surname.trim();
+    this.model.email = this.model.email.trim();
+    this.model.password = this.model.password.trim();
+    this.confirmPassword = this.confirmPassword.trim();
+
+    // Client-side input validation
     const nameValid = /^[a-zA-Z\s\-]{2,30}$/.test(this.model.name);
     const surnameValid = /^[a-zA-Z\s\-]{2,30}$/.test(this.model.surname);
     const emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.model.email);

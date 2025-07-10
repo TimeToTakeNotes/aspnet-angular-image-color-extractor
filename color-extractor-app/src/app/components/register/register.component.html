@@ -16,8 +16,11 @@
           pattern="^[a-zA-Z\s\-]{2,30}$"
           #name="ngModel"
         />
-        <mat-error *ngIf="name.invalid && name.touched">
-          Name must be 2–30 characters and contain only letters.
+        <mat-error *ngIf="name.errors?.['required'] && name.touched">
+          Name is required.
+        </mat-error>
+        <mat-error *ngIf="name.errors?.['pattern'] && name.touched">
+          Only letters, spaces, and hyphens allowed (2–30 chars).
         </mat-error>
       </mat-form-field>
 
@@ -32,8 +35,11 @@
           pattern="^[a-zA-Z\s\-]{2,30}$"
           #surname="ngModel"
       />
-        <mat-error *ngIf="surname.invalid && surname.touched">
-          Surname must be 2–30 characters and contain only letters.
+        <mat-error *ngIf="surname.errors?.['required'] && surname.touched">
+          Surname is required.
+        </mat-error>
+        <mat-error *ngIf="surname.errors?.['pattern'] && surname.touched">
+          Only letters, spaces, and hyphens allowed (2–30 chars).
         </mat-error>
       </mat-form-field>
 
@@ -49,7 +55,10 @@
           pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
           #email="ngModel"
       />
-        <mat-error *ngIf="email.invalid && email.touched">
+        <mat-error *ngIf="email.errors?.['required'] && email.touched">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="email.errors?.['pattern'] && email.touched">
           Please enter a valid email address.
         </mat-error>
       </mat-form-field>
@@ -66,7 +75,10 @@
           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$"
           #password="ngModel"
       />
-        <mat-error *ngIf="password.invalid && password.touched">
+        <mat-error *ngIf="password.errors?.['required'] && password.touched">
+          Password is required.
+        </mat-error>
+        <mat-error *ngIf="password.errors?.['pattern'] && password.touched">
           Password must be 8+ chars, include upper/lowercase, number, and symbol.
         </mat-error>
       </mat-form-field>
@@ -95,6 +107,7 @@
         color="primary"
         class="global-button"
         type="submit"
+        aria-label="Register"
         [disabled]="registerForm.invalid || passwordMismatch || isLoading"
       >
         {{ isLoading ? 'Registering...' : 'Register' }}

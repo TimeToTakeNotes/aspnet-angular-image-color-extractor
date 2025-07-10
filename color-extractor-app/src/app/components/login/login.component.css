@@ -1,10 +1,8 @@
-/* .full-width {
-  width: 100%;
+.auth-form mat-form-field.full-width {
+  margin-bottom: -5px !important;
 }
 
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+mat-error {
+  margin-top: -6px;
+  font-size: 12px;
 }
-  */
