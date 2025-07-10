@@ -95,8 +95,8 @@ export class ImageDetailComponent implements OnInit {
       Are you sure you want to permanently delete this image?
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>No</button>
-      <button mat-raised-button color="warn" [mat-dialog-close]="true">Yes, Delete</button>
+      <button mat-button mat-dialog-close class="global-button">No</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true" class="global-button">Yes, Delete</button>
     </mat-dialog-actions>
   `,
   imports: [MatDialogModule, MatButtonModule]

@@ -1,0 +1,29 @@
+<mat-card class="user-settings-card">
+  <h2>User Settings</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Surname</mat-label>
+      <input matInput formControlName="surname" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Update Info</button>
+      <button mat-stroked-button color="warn" type="button" (click)="onDeleteAccount()">Delete Account</button>
+    </div>
+  </form>
+</mat-card>
