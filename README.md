@@ -126,6 +126,26 @@ $env:ASPNETCORE_ENVIRONMENT = "Development"
 export ASPNETCORE_ENVIRONMENT=Development
 ```
 
+Here's a concise section you can add under the **"ASP.NET Core backend setup"** section to guide users on installing the `dotnet-ef` tool before running migrations:
+
+---
+
+##### 2.5.1 (Optional) Install EF Core CLI if not installed
+
+If you haven't installed the Entity Framework Core CLI (`dotnet ef`), run:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+Then confirm the installation:
+
+```bash
+dotnet ef --version
+```
+
+> If you're using .NET 9, make sure the EF Core CLI version matches your SDK version. See: [https://www.nuget.org/packages/dotnet-ef](https://www.nuget.org/packages/dotnet-ef)
+
 #### 2.6 Apply migrations + create database:
 
 ```bash
@@ -134,6 +154,23 @@ dotnet ef database update
 
 *(Ensure SQL Server is running)*
 
+##### 2.6.1 If errors occur during migration
+
+If the migration fails due to missing tables or conflicting changes, you can safely reset your migrations during development:
+
+```bash
+# Optional: Drop the existing database
+dotnet ef database drop --force
+
+# Delete all migration files (under Migrations/ or Data/Migrations/)
+# Then recreate the initial migration
+dotnet ef migrations add InitialCreate
+
+# Apply the migration
+dotnet ef database update
+```
+
+> ⚠️ Only do this in development — dropping the database will remove all data.
 
 #### 2.7 Run the backend:
 
