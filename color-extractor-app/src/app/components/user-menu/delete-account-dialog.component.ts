@@ -99,7 +99,10 @@ export class DeleteAccountDialog {
 
     this.userService.deleteAccount({ password: this.form.value.password }).subscribe({
         next: (res) => {
-        this.snackBar.open(res.message, 'Close', { duration: 3000 });
+        this.snackBar.open(res.message, 'Close', { 
+          duration: 3000,
+          panelClass: 'snackbar-success' 
+        });
         this.dialogRef.close(true);
         },
         error: (err: HttpErrorResponse) => {
@@ -110,7 +113,7 @@ export class DeleteAccountDialog {
         // Clear backendError
         this.backendError = null;
 
-        let errMsg = 'Password is incorrect or account deletion failed.';
+        let errMsg = 'Password is incorrect.';
         if (err.status === 401 && err.error?.message) {
             errMsg = err.error.message;
         } else if (typeof err.error === 'string') {

@@ -29,7 +29,7 @@ namespace ColorExtractorApi.Controllers
             {
                 bool updated = await _userService.UpdateUserInfoAsync(userId, dto.Name, dto.Surname, dto.Email);
                 if (!updated)
-                    return BadRequest(new { message = "No changes detected or user not found." });
+                    return BadRequest(new { message = "No changes detected." });
 
                 return Ok(new { message = "User info updated successfully." });
             }

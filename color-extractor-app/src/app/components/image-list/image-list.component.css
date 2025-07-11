@@ -4,6 +4,11 @@
   align-items: baseline;
 }
 
+.image-list-container {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -62,4 +67,29 @@ img:hover {
 .back:hover {
   background-color: #357ABD;
   box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
+}
+
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.image-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.image-list-container::-webkit-scrollbar-track {
+  background: transparent; 
+  border-radius: 8px;
+}
+
+.image-list-container::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 12px;
+}
+
+.image-list-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark);
 }

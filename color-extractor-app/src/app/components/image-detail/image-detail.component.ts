@@ -9,6 +9,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-image-detail',
@@ -22,7 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatProgressSpinnerModule,
     MatButtonModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   templateUrl: './image-detail.component.html',
   styleUrls: ['./image-detail.component.css']
@@ -36,7 +39,8 @@ export class ImageDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private imageService: ImageService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -73,12 +77,18 @@ export class ImageDetailComponent implements OnInit {
       if (result && this.image) {
         this.imageService.deleteImage(this.image.id).subscribe({
           next: () => {
-            alert('Image deleted successfully.');
+            this.snackBar.open('Image deleted successfully.', 'Close', {
+              duration: 3000,
+              panelClass: 'snackbar-success'
+            });
             this.router.navigate(['/images']);
           },
           error: err => {
             console.error('Failed to delete image:', err);
-            alert('Deletion failed. Try again.');
+            this.snackBar.open('Deletion failed. Try again.', 'Close', {
+              duration: 3000,
+              panelClass: 'snackbar-error'
+            });
           }
         });
       }

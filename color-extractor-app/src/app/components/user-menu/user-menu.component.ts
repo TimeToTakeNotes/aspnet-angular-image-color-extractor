@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 // Material Design:
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,8 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { DeleteAccountDialog } from './delete-account-dialog.component';
 
 @Component({
@@ -20,13 +23,15 @@ import { DeleteAccountDialog } from './delete-account-dialog.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterLink,
     // Material Design:
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.css']
@@ -37,6 +42,7 @@ export class UserMenuComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
@@ -47,7 +53,21 @@ export class UserMenuComponent implements OnInit {
       surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
+
+    this.authService.getMe().subscribe({
+      next: user => {
+        this.form.patchValue({
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+        });
+      },
+      error: err => {
+        this.snackBar.open('Failed to load user info.', 'Close', { duration: 3000 });
+      }
+    });
   }
+
 
   onSubmit() {
     if (this.form.invalid) return;

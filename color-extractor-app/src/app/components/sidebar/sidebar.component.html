@@ -1,6 +1,6 @@
-<div class="overlay" *ngIf="isOpen" (click)="isOpen = false"></div>
+<div class="overlay" *ngIf="isOpen" (click)="onOverlayClick()"></div>
 
-<aside class="sidebar" [class.open]="isOpen">
+<aside class="sidebar" [class.open]="isOpen" (click)="$event.stopPropagation()">
   <div class="sidebar-header">
     <!-- <button mat-icon-button (click)="isOpen = false" aria-label="Close sidebar">
       <mat-icon>close</mat-icon>
@@ -8,7 +8,7 @@
   </div>
 
   <nav class="sidebar-content">
-    <a mat-button routerLink="/user" class="global-button sidebar-buttons">User Menu</a>
+    <a mat-button routerLink="/user" class="global-button sidebar-buttons">Account</a>
   </nav>
   <div class="sidebar-footer">
 

@@ -1,6 +1,5 @@
 .app-container {
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +13,7 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px); /* Safari support */
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
   color: var(--color-text-primary);
 }

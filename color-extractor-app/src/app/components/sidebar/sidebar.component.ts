@@ -21,9 +21,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class SidebarComponent {
   @Output() toggleSidebar = new EventEmitter<void>();
-
   onToggleSidebar(): void {
     this.toggleSidebar.emit();
+  }
+
+  @Output() closeSidebar = new EventEmitter<void>();
+  onOverlayClick() {
+    this.closeSidebar.emit();
   }
 
   @Input() isOpen = false;
