@@ -96,9 +96,3 @@ button[type="submit"] {
   margin-left: 8px;
   vertical-align: middle;
 }
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

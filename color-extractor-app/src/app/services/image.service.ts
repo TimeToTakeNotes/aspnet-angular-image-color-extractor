@@ -34,8 +34,7 @@ export class ImageService {
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(file: File): Observable<UploadResponse> {
-    // Backend [HttpPost("upload")] endpoint
+  uploadImage(file: File): Observable<UploadResponse> { // Backend [HttpPost("upload")] endpoint
     const formData = new FormData();
     formData.append('img', file, file.name);
 
@@ -44,21 +43,19 @@ export class ImageService {
     });
   }
 
-  getMyImages(): Observable<ImageListItem[]> {
-    // Backend [HttpGet("my-images")] endpoint
+  getMyImages(): Observable<ImageListItem[]> { // Backend [HttpGet("my-images")] endpoint
     return this.http.get<ImageListItem[]>(`${this.apiUrl}/my-images`, {
       withCredentials: true
     });
   }
 
-  getImageDetail(id: number): Observable<ImageDetail> {
-    // Backend [HttpGet("{id}")] endpoint
+  getImageDetail(id: number): Observable<ImageDetail> { // Backend [HttpGet("{id}")] endpoint
     return this.http.get<ImageDetail>(`${this.apiUrl}/${id}`, {
       withCredentials: true
     });
   }
 
-  deleteImage(id: number): Observable<{ message: string }> {
+  deleteImage(id: number): Observable<{ message: string }> { // Backend [HttpDelete("{id}")] endpoint
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`, {
       withCredentials: true
     });

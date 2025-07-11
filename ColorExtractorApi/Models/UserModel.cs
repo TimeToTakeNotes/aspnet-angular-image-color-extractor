@@ -1,4 +1,6 @@
-using System.ComponentModel.DataAnnotations; // Allows adding validation rules and metadata to models
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace ColorExtractorApi.Models
 {
@@ -21,10 +23,12 @@ namespace ColorExtractorApi.Models
         public string Email { get; set; } = string.Empty;
 
         [Required]
+        [JsonIgnore] // Ignore this property during serialization
         public string PasswordHash { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedAt { get; set; }
 
         [Required]
         public List<RefreshToken> RefreshTokens { get; set; } = new();

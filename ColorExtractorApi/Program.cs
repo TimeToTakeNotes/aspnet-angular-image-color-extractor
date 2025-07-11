@@ -88,6 +88,7 @@ builder.Services.AddScoped<IImageRepository, ImageRepository>();
 // Services:
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 //Service Helpers:
 builder.Services.AddScoped(sp => new JwtUtils(jwtKey)); // Pass key to JwtUtils via DI

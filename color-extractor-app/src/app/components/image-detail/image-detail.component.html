@@ -1,5 +1,5 @@
 <div class="image-detail-container">
-  <h1><mat-icon>photo</mat-icon> Image Details</h1>
+  <h2><mat-icon>photo</mat-icon> Image Details</h2>
 
   <!-- Loading -->
   <div *ngIf="isLoading" class="center loading-state">
@@ -46,20 +46,20 @@
     </mat-card-content>
 
     <!-- Navigation Buttons -->
-    <div class="btn-container">
+    <div class="center">
       <a routerLink="/" 
         class="global-button mat-elevation-z2 mat-button-content" 
         mat-raised-button
         color="primary"
       >
-        <mat-icon>arrow_back</mat-icon> Back to Home
+        <mat-icon>arrow_back</mat-icon> Home
       </a>
       <a routerLink="/images" 
         class="global-button mat-elevation-z2 mat-button-content" 
         mat-raised-button
         color="accent"
       >
-        <mat-icon>image</mat-icon> Go to Image List
+        <mat-icon>image</mat-icon> Image List
       </a>
     </div>
   </mat-card>

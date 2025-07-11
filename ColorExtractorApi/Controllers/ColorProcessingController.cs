@@ -18,7 +18,8 @@ namespace ColorExtractorApi.Controllers
             _imageService = imageService;
         }
 
-        [HttpPost("upload")]
+        // Uploads an image and processes it to extract color
+        [HttpPost("upload")] // POST api/image/upload
         public async Task<IActionResult> UploadImage([FromForm] IFormFile img)
         {
             if (img == null || img.Length == 0)
@@ -68,7 +69,8 @@ namespace ColorExtractorApi.Controllers
         //     return Ok(result);
         // }
 
-        [HttpGet("my-images")] // Lists user owned images
+        // Lists user owned images
+        [HttpGet("my-images")] // GET api/image/my-images
         public async Task<IActionResult> GetMyImages()
         {
             var userId = GetUserIdFromToken();
@@ -91,7 +93,8 @@ namespace ColorExtractorApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        // Gets image details by ID
+        [HttpGet("{id}")] // GET api/image/{id}
         public async Task<IActionResult> GetImageById(int id)
         {
             var userId = GetUserIdFromToken();
@@ -117,7 +120,8 @@ namespace ColorExtractorApi.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        // Deletes an image by ID
+        [HttpDelete("{id}")] // DELETE api/image/{id}
         public async Task<IActionResult> DeleteImage(int id)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);

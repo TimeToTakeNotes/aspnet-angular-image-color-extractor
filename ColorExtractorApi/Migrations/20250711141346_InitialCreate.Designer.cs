@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ColorExtractorApi.Migrations
 {
     [DbContext(typeof(ColorExtractorContext))]
-    [Migration("20250710194635_InitialCreate")]
+    [Migration("20250711141346_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -93,7 +93,7 @@ namespace ColorExtractorApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -115,7 +115,13 @@ namespace ColorExtractorApi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

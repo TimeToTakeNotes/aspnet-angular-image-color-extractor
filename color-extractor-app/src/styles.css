@@ -12,10 +12,21 @@
   --color-text-secondary: #666666;
   --color-success: #28A745;
   --color-error: #D32F2F;
+
+  --font-base-size: 15px;
+  --font-scale: 1.125; /* Typing scale */
+  --font-small: calc(var(--font-base-size) / var(--font-scale)); /* ~13.3px */
+  --font-medium: var(--font-base-size);                         /* 15px */
+  --font-large: calc(var(--font-base-size) * var(--font-scale)); /* ~16.8px */
 }
 
-html, body {
-  height: 100%;
+html {
+  font-size: 100%; /* 16px */
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", "Segoe UI", Tahoma, sans-serif;
@@ -23,26 +34,40 @@ html, body {
   background-size: cover;
   background-color: transparent;
   color: var(--color-text-primary);
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-/* Material Typography */
-body.mat-typography {
-  font-size: 16px;
+  font-size: var(--font-medium);
   line-height: 1.5;
 }
 
-/* Global Button Style */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-text-headers);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem); /* Responsive */
+}
+h2 {
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+}
+
+
+/* Buttons */
 a.global-button, button.global-button {
   background-color: var(--color-primary);
-  color: #182978 !important; 
+  color: #182978 !important;
   text-decoration: none;
   margin: 10px;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: var(--font-medium);
+  padding: 0.6rem 1.2rem;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 3px 8px rgba(74, 144, 226, 0.4);
   cursor: pointer;
@@ -53,22 +78,19 @@ a.global-button:hover, button.global-button:hover {
   background-color: var(--color-primary-dark);
   color: white !important;
   box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-container {
+/* Layout Helpers */
+.center {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-/* Headings */
-h1, h2 {
-  text-align: center;
-  font-weight: 600;
-  color: var(--color-text-headers);
-  margin-top: 1rem;
+.full-width {
+  width: 100%;
 }
+
 
 /* Form Container Styling */
 .form-container {
@@ -103,20 +125,18 @@ h1, h2 {
   margin-bottom: -15px; 
 }
 
-.loading-spinner {
-  margin-top: 1rem;
-}
-
+/* Feedback & Text */
 .error {
   color: var(--color-error);
   text-align: center;
   margin-top: 10px;
+  font-size: var(--font-small);
 }
 
 .info-text {
   text-align: center;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: var(--font-small);
   color: var(--color-text-secondary);
 }
 
@@ -130,23 +150,36 @@ h1, h2 {
   text-decoration: underline;
 }
 
-/* Material Icon Override */
+.loading-spinner {
+  margin-top: 1rem;
+}
+
+/* Material Icon Overrides */
 mat-icon {
-  font-size: 24px;
+  font-size: 1.4rem;
   vertical-align: middle;
 }
 
 button mat-icon {
-  font-size: 28px;
+  font-size: 1.75rem;
 }
 
-/* Utility Classes */
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 1.5rem;
+  }
 
-.full-width {
-  width: 100%;
+  h1, h2 {
+    text-align: left;
+  }
+
+  .global-button {
+    width: 100%;
+    font-size: var(--font-small);
+  }
+
+  mat-icon {
+    font-size: 1.25rem;
+  }
 }

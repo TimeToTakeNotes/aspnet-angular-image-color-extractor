@@ -48,17 +48,18 @@
 }
 
 .delete-button {
+  border-radius: 50% !important;
   color: var(--color-error);
   background-color: var(--color-surface);
-  box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .delete-button:hover {
   background-color: var(--color-error);
   color: white !important;
-  box-shadow: 0 5px 12px rgba(53, 122, 189, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0;
+  transition: background-color 0.3s ease;
 }
 
 .detail-card {
