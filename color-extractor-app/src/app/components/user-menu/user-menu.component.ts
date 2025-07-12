@@ -14,7 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-import { DeleteAccountDialog } from './delete-account-dialog.component';
+import { UpdatePasswordDialog } from './update-password-dialog/update-password-dialog.component';
+import { DeleteAccountDialog } from './delete-account-dialog/delete-account-dialog.component';
 
 @Component({
   selector: 'app-user',
@@ -80,6 +81,10 @@ export class UserMenuComponent implements OnInit {
         this.snackBar.open(err.message, 'Close', { duration: 4000 });
       }
     });
+  }
+
+  onUpdatePassword() {
+    this.dialog.open(UpdatePasswordDialog, { width: '400px' });
   }
 
   onDeleteAccount() {

@@ -10,6 +10,7 @@ namespace ColorExtractorApi.Repository
         Task CreateAsync(User user);
         Task<bool> UpdateUserInfoAsync(int userId, string name, string surname, string email);
         Task<bool> EmailExistsAsync(string email);
+        Task<bool> UpdatePasswordAsync(User user, string newPassword);
         Task<bool> DeleteAsync(int userId);
     }
 }

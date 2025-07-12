@@ -1,40 +1,46 @@
 <!-- Back Button -->
-  <a routerLink="/" 
-    class="global-button mat-elevation-z2 mat-button-content" 
-    mat-raised-button
-    color="primary"
-    >
-    <mat-icon>arrow_back</mat-icon> Home
-  </a>
+<a routerLink="/" 
+  class="global-button mat-elevation-z2 mat-button-content" 
+  mat-raised-button
+  color="primary"
+  >
+  <mat-icon>arrow_back</mat-icon> Home
+</a>
 
-<mat-card class="user-settings-card">
-  <h2>User Settings</h2>
+<!-- User Settings Form -->
+<div class="user-settings-container">
+  <mat-card class="user-settings-card">
+    <h2>User Settings</h2>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
-    </mat-form-field>
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Surname</mat-label>
-      <input matInput formControlName="surname" />
-    </mat-form-field>
+      <!-- Surname Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Surname</mat-label>
+        <input matInput formControlName="surname" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" />
-    </mat-form-field>
+      <!-- Email Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password" />
-    </mat-form-field> -->
 
-    <div class="button-row">
+      <!-- Update Sunmit Button -->
       <button mat-raised-button class="global-button" color="primary" type="submit" [disabled]="form.invalid">Update Info</button>
-      <button mat-stroked-button class="global-button" color="warn" type="button" (click)="onDeleteAccount()">Delete Account</button>
-    </div>
-  </form>
-</mat-card>
+    </form>
+  </mat-card>
+
+  <!-- Password and Account Deletion Options -->
+  <div class="button-column">
+    <button mat-raised-button class="global-button" color="primary" type="button" (click)="onUpdatePassword()">Update Password</button>  
+    <button mat-stroked-button class="global-button" color="warn" type="button" (click)="onDeleteAccount()">Delete Account</button>
+  </div>
+</div>

@@ -17,17 +17,24 @@ export interface UserDeleteRequest {
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'http://localhost:5176/api/user/me'; // Base url for user operations
+  private apiUrl = 'http://localhost:5176/api/user'; // Base url for user operations
 
   constructor(private http: HttpClient) {}
 
   updateUserInfo(data: UserUpdateRequest): Observable<any> { // Backend [HttpPut] endpoint
-    return this.http.put(this.baseUrl, data, { withCredentials: true })
-      .pipe(catchError(this.handleError));
+    return this.http.put(`${this.apiUrl}/me`, data, {
+        withCredentials: true
+      }).pipe(catchError(this.handleError));
+    }
+
+  updatePassword(data: { currentPassword: string; newPassword: string; confirmPassword: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/update-password`, data, {
+      withCredentials: true
+    }).pipe(catchError(this.handleError));
   }
 
   deleteAccount(data: UserDeleteRequest): Observable<any> { // Backend [HttpDelete] endpoint
-    return this.http.request('delete', this.baseUrl, {
+    return this.http.request('delete', `${this.apiUrl}/me`, {
       body: data,
       withCredentials: true
     }).pipe(catchError(this.handleError));

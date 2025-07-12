@@ -20,7 +20,6 @@ namespace ColorExtractorApi.Controllers
 
         // Update user info
         [HttpPut("me")] // PUT api/user/me
-
         public async Task<IActionResult> UpdateMyInfo([FromBody] UserUpdateRequestDto dto)
         {
             int userId = GetUserId();
@@ -44,7 +43,37 @@ namespace ColorExtractorApi.Controllers
             }
         }
 
-        // Change password
+        // Update user password
+        [HttpPost("update-password")] // POST api/user/update-password
+        public async Task<IActionResult> UpdatePassword([FromBody] UserUpdatePasswordRequestDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (dto.NewPassword != dto.ConfirmPassword)
+                return BadRequest(new { message = "Passwords do not match." });
+
+            int userId = GetUserId();
+
+            try
+            {
+                var result = await _userService.UpdatePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
+                if (!result)
+                    return NotFound(new { message = "User not found." });
+
+                return Ok(new { message = "Password updated successfully." });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", detail = ex.Message });
+            }
+        }
+
+        // Delete user account
         [HttpDelete("me")] // DELETE api/users/me
         public async Task<IActionResult> DeleteMyAccount([FromBody] UserDeleteRequestDto dto)
         {

@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { throwError } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-delete-account-dialog',
@@ -21,45 +20,8 @@ import { UserService } from '../../services/user.service';
     MatButtonModule,
     MatDialogModule,
   ],
-  template: `
-    <h2 mat-dialog-title>Delete Account?</h2>
-    <mat-dialog-content [formGroup]="form">
-      <p>Please enter your password to confirm account deletion.</p>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <input
-          matInput
-          type="password"
-          formControlName="password"
-          autocomplete="current-password"
-          required
-        />
-        <mat-error *ngIf="form.controls['password'].hasError('required')">
-          Password is required
-        </mat-error>
-        <mat-error *ngIf="form.controls['password'].hasError('minlength')">
-          Password must be at least 8 characters
-        </mat-error>
-        <mat-error *ngIf="form.controls['password'].hasError('backend')">
-            {{ form.controls['password'].getError('backend') }}
-        </mat-error>
-      </mat-form-field>
-    </mat-dialog-content>
-
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()" class="global-button" [disabled]="loading">Cancel</button>
-      <button
-        mat-raised-button
-        color="warn"
-        [disabled]="form.invalid || loading"
-        (click)="onConfirm()"
-        class="global-button"
-      >
-        Delete Account
-      </button>
-    </mat-dialog-actions>
-  `,
-  styles: [`.full-width { width: 100%; }`],
+  templateUrl: `./delete-account-dialog.component.html`,
+  styleUrls: [`./delete-account-dialog.component.css`],
 })
 export class DeleteAccountDialog {
   form: FormGroup;

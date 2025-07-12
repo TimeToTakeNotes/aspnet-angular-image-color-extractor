@@ -38,6 +38,20 @@ namespace ColorExtractorApi.Services
             return await _userRepository.UpdateUserInfoAsync(userId, name, surname, email);
         }
 
+        public async Task<bool> UpdatePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                return false;
+
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
+            if (verificationResult == PasswordVerificationResult.Failed)
+                throw new UnauthorizedAccessException("Incorrect current password.");
+
+            return await _userRepository.UpdatePasswordAsync(user, newPassword);
+        }
+
+
         public async Task<bool> DeleteUserAsync(int userId, string password)
         {
             var user = await _userRepository.GetByIdAsync(userId);

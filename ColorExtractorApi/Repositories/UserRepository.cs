@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ColorExtractorApi.Data;
 using ColorExtractorApi.Models;
@@ -64,6 +65,19 @@ namespace ColorExtractorApi.Repository
             user.Surname = surname;
             user.Email = email;
             user.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdatePasswordAsync(User user, string newPassword)
+        {
+            var dbUser = await _context.Users.FindAsync(user.Id);
+            if (dbUser == null)
+                return false;
+
+            dbUser.PasswordHash = new PasswordHasher<User>().HashPassword(dbUser, newPassword);
+            dbUser.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return true;

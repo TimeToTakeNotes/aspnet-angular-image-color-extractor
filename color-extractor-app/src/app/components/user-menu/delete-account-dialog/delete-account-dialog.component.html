@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Delete Account?</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <p>Please enter your password to confirm account deletion.</p>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      autocomplete="current-password"
+      required
+    />
+    <mat-error *ngIf="form.controls['password'].hasError('required')">
+      Password is required
+    </mat-error>
+    <mat-error *ngIf="form.controls['password'].hasError('minlength')">
+      Password must be at least 8 characters
+    </mat-error>
+    <mat-error *ngIf="form.controls['password'].hasError('backend')">
+        {{ form.controls['password'].getError('backend') }}
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" class="global-button" [disabled]="loading">Cancel</button>
+  <button
+    mat-raised-button
+    color="warn"
+    [disabled]="form.invalid || loading"
+    (click)="onConfirm()"
+    class="global-button"
+  >
+    Delete Account
+  </button>
+</mat-dialog-actions>

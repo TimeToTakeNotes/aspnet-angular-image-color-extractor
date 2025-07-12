@@ -45,7 +45,21 @@ namespace ColorExtractorApi.Models.DTOs
         public string Email { get; set; } = string.Empty;
     }
 
-    public class UserDeleteRequestDto // Used to verify user identity before deletion
+    public class UserUpdatePasswordRequestDto // Vefification before password change
+    {
+        [Required]
+        [MinLength(8)]
+        public string CurrentPassword { get; set; } = string.Empty;
+
+        [Required]
+        [MinLength(8)]
+        public string NewPassword { get; set; } = string.Empty;
+
+        [Required]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
+    public class UserDeleteRequestDto // Verify user identity before deletion
     {
         [Required]
         [MinLength(8)]
