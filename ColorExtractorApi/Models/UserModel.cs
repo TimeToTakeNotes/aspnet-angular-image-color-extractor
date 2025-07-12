@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace ColorExtractorApi.Models
@@ -27,7 +26,6 @@ namespace ColorExtractorApi.Models
         public string PasswordHash { get; set; } = string.Empty;
 
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-
         public DateTime? UpdatedAt { get; set; }
 
         [Required]

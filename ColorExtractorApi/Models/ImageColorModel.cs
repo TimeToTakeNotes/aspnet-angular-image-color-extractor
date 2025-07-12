@@ -19,5 +19,8 @@ namespace ColorExtractorApi.Models
         // Link image to user
         [Required]
         public int UserId { get; set; } // FK linked to User table/model
+
+        [Required]
+        public User User { get; set; } = null!;
     }
 }

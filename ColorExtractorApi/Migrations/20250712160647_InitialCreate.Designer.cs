@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ColorExtractorApi.Migrations
 {
     [DbContext(typeof(ColorExtractorContext))]
-    [Migration("20250711141346_InitialCreate")]
+    [Migration("20250712160647_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -49,6 +49,8 @@ namespace ColorExtractorApi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ImageColors");
                 });
@@ -124,6 +126,17 @@ namespace ColorExtractorApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ColorExtractorApi.Models.ImageColor", b =>
+                {
+                    b.HasOne("ColorExtractorApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ColorExtractorApi.Models.RefreshToken", b =>
