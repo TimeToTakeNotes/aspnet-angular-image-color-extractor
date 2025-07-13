@@ -1,5 +1,6 @@
 <h2 mat-dialog-title>Delete Account?</h2>
 
+<!-- Password confirmation dialog before account deletion -->
 <mat-dialog-content [formGroup]="form">
   <p>Please enter your password to confirm account deletion.</p>
   <mat-form-field appearance="outline" class="full-width">
@@ -23,8 +24,10 @@
   </mat-form-field>
 </mat-dialog-content>
 
+<!-- Buttons -->
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()" class="global-button" [disabled]="loading">Cancel</button>
+
   <button
     mat-raised-button
     color="warn"

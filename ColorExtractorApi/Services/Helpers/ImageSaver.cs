@@ -1,6 +1,3 @@
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-
 namespace ColorExtractorApi.Services.Helpers
 {
     public class ImageSaver

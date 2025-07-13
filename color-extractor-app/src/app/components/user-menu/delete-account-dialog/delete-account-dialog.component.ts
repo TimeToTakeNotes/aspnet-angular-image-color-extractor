@@ -82,7 +82,7 @@ export class DeleteAccountDialog {
             errMsg = err.error;
         }
 
-        // ✅ Attach the error to the control itself
+        // Attach the error to the control itself for showing
         passwordControl?.setErrors({ backend: errMsg });
 
         this.loading = false;

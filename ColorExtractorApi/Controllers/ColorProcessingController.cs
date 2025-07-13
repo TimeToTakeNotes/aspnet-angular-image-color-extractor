@@ -51,24 +51,6 @@ namespace ColorExtractorApi.Controllers
             });
         }
 
-        // [HttpGet("list")] // Lists all images regardless of ownership (admin?)
-        // public async Task<IActionResult> GetAllImages()
-        // {
-        //     var images = await _imageService.GetAllImagesAsync();
-
-        //     var request = HttpContext.Request;
-        //     var baseUrl = $"{request.Scheme}://{request.Host}";
-
-        //     var result = images.Select(img => new
-        //     {
-        //         img.Id,
-        //         ThumbnailUrl = $"{baseUrl}/{img.ThumbnailPath}",
-        //         img.HexColor
-        //     });
-
-        //     return Ok(result);
-        // }
-
         // Lists user owned images
         [HttpGet("my-images")] // GET api/image/my-images
         public async Task<IActionResult> GetMyImages()

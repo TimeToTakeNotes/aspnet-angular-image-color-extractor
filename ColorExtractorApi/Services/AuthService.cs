@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using ColorExtractorApi.Services.Helpers;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Models.DTOs;
 using ColorExtractorApi.Repository;
+using ColorExtractorApi.Services.Helpers;
 
 namespace ColorExtractorApi.Services
 {

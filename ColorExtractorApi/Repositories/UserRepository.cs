@@ -72,11 +72,11 @@ namespace ColorExtractorApi.Repository
 
         public async Task<bool> UpdatePasswordAsync(User user, string newPassword)
         {
-            var dbUser = await _context.Users.FindAsync(user.Id);
-            if (dbUser == null)
+            var dbUser = await _context.Users.FindAsync(user.Id); // Find user by ID
+            if (dbUser == null) // user not found  
                 return false;
 
-            dbUser.PasswordHash = new PasswordHasher<User>().HashPassword(dbUser, newPassword);
+            dbUser.PasswordHash = new PasswordHasher<User>().HashPassword(dbUser, newPassword); // Hash the new password
             dbUser.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
@@ -85,11 +85,11 @@ namespace ColorExtractorApi.Repository
         
         public async Task<bool> DeleteAsync(int userId)
         {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
+            var user = await _context.Users.FindAsync(userId); // Find user by ID
+            if (user == null) // user not found 
                 return false;
 
-            _context.Users.Remove(user);
+            _context.Users.Remove(user); // Remove user along with refresh tokens and images related to this user via cascade delete
             await _context.SaveChangesAsync();
             return true;
         }

@@ -240,20 +240,23 @@ The frontend will be available at: `http://localhost:4200`
 
 - The `wwwroot/uploads/` folder is ignored in Git.
 - Folder structure is auto-created per user on first upload.
-- You don’t need to manually create these directories.
+- You only need to manually create the wwwroot directory if not present.
 
 ---
 
 ## **Example API endpoints**
 
-| Method  | URL                   | Description                                 |
-| ------  | --------------------- | ------------------------------------------- |
-| `POST`  | `/api/image/upload`   | Upload image and extract color              |
-| `DELETE`| `/api/image/{id}`     | Delete image (DB + file system)             |
-| `GET`   | `/api/image/my-images`| Get current user's images (thumbnail list)  |
-| `GET`   | `/api/image/{id}`     | Get details of a specific image             |
-| `POST`  | `/api/auth/register`  | Register new user                           |
-| `POST`  | `/api/auth/login`     | Login and receive auth cookies              |
-| `GET`   | `/api/auth/me`        | Validate and return current user            |
-| `POST`  | `/api/auth/refresh`   | Refresh access token                        |
-| `POST`  | `/api/auth/logout`    | Invalidate session                          |
+| Method  | URL                        | Description                                 |
+| ------  | -------------------------- | ------------------------------------------- |
+| `POST`  | `/api/auth/register`       | Register new user                           |
+| `POST`  | `/api/auth/login`          | Login and receive auth cookies              |
+| `GET`   | `/api/auth/me`             | Validate and return current user            |
+| `POST`  | `/api/auth/refresh`        | Refresh access token                        |
+| `POST`  | `/api/auth/logout`         | Invalidate session                          |
+| `POST`  | `/api/image/upload`        | Upload image and extract color              |
+| `DELETE`| `/api/image/{id}`          | Delete image (DB + file system)             |
+| `GET`   | `/api/image/my-images`     | Get current user's images (thumbnail list)  |
+| `GET`   | `/api/image/{id}`          | Get details of a specific image             |
+| `PUT`   | `/api/user/me`             | Update user name, surname, and email        |
+| `DELETE`| `/api/user/me`             | Delete user account and data                |
+| `POST`  | `/api/user/update-password`| Update user password                        |

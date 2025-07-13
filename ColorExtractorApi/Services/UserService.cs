@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Repository;
-using System;
-using System.Threading.Tasks;
 using ColorExtractorApi.Services.Helpers;
 
 namespace ColorExtractorApi.Services
@@ -47,7 +45,7 @@ namespace ColorExtractorApi.Services
             if (user == null)
                 return false;
 
-            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword); // Verify the current password before update
             if (verificationResult == PasswordVerificationResult.Failed)
                 throw new UnauthorizedAccessException("Incorrect current password.");
 
@@ -61,7 +59,7 @@ namespace ColorExtractorApi.Services
             if (user == null)
                 return false;
 
-            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password); // Verify user with password before account delete
             if (verificationResult == PasswordVerificationResult.Failed)
                 throw new UnauthorizedAccessException("Incorrect password.");
 

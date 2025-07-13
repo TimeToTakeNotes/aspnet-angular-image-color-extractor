@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 using ColorExtractorApi.Data;
+using ColorExtractorApi.Middleware;
 using ColorExtractorApi.Repository;
 using ColorExtractorApi.Services;
 using ColorExtractorApi.Services.Helpers;
-using ColorExtractorApi.Middleware;
 
 var MyAllowFrontend = "myAllowFrontend";
 var builder = WebApplication.CreateBuilder(args);

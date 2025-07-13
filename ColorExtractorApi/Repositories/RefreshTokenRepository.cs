@@ -22,7 +22,7 @@ namespace ColorExtractorApi.Repository
         public async Task<RefreshToken?> GetRefreshTokenAsync(string token)
         {
             return await _context.RefreshTokens
-                .Include(rt => rt.User) // So we can access the linked user directly
+                .Include(rt => rt.User) // To access  linked user directly
                 .FirstOrDefaultAsync(rt => rt.Token == token);
         }
 
