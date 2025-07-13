@@ -3,6 +3,7 @@ using ColorExtractorApi.Models;
 using ColorExtractorApi.Repository;
 using System;
 using System.Threading.Tasks;
+using ColorExtractorApi.Services.Helpers;
 
 namespace ColorExtractorApi.Services
 {
@@ -10,10 +11,12 @@ namespace ColorExtractorApi.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly PasswordHasher<User> _passwordHasher;
+        private readonly ImageFolderRemover _imageFolderRemover;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, ImageFolderRemover imageFolderRemover)
         {
             _userRepository = userRepository;
+            _imageFolderRemover = imageFolderRemover;
             _passwordHasher = new PasswordHasher<User>();
         }
 
@@ -62,6 +65,7 @@ namespace ColorExtractorApi.Services
             if (verificationResult == PasswordVerificationResult.Failed)
                 throw new UnauthorizedAccessException("Incorrect password.");
 
+            _imageFolderRemover.DeleteImageFolder(userId);
             return await _userRepository.DeleteAsync(userId);
         }
     }

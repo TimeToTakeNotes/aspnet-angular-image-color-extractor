@@ -95,6 +95,7 @@ builder.Services.AddScoped(sp => new JwtUtils(jwtKey)); // Pass key to JwtUtils 
 builder.Services.AddScoped<ImageProcessor>();
 builder.Services.AddScoped<ImageSaver>();
 builder.Services.AddScoped<ImageRemover>();
+builder.Services.AddScoped<ImageFolderRemover>();
 
 
 var app = builder.Build();

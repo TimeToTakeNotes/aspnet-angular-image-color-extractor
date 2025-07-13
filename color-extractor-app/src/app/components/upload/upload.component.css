@@ -88,6 +88,10 @@ button[type="submit"] {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
+.center-color-info {
+  color: var(--color-background);
+}
+
 .color-box {
   display: inline-block;
   width: 25px;
