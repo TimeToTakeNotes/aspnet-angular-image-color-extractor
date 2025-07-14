@@ -14,6 +14,7 @@ A full-stack image color extractor application that allows users to upload image
 - Thumbnail generation
 - Images saved in per-user folders under `wwwroot/uploads/{userId}/`
 - Secure user registration/login using JWT in HttpOnly cookies (access + refresh tokens)
+- IP-based rate limiting for login attempts (5 per 10 minutes per IP)
 - CSRF protection via custom middleware
 - Token refresh + logout endpoints
 - View your image list and details (per-user access)
@@ -215,6 +216,15 @@ The frontend will be available at: `http://localhost:4200`
 - auth.guard.ts protects Angular routes.
 - Auth state is tracked with a reactive BehaviorSubject in auth.service.ts.
 
+### Rate Limiting
+
+The backend includes custom rate limiting middleware to prevent brute-force login attacks.
+
+- Each IP address is limited to **5 login attempts** per **10-minute window**
+- If the limit is exceeded, a `429 Too Many Requests` response is returned
+- The limit is enforced **in-memory** using `IMemoryCache` (can be swapped for Redis later)
+- Configurable via `RateLimitOptions` in `appsettings.json` (or appsettingsDevelopment.json for development)
+
 ---
 
 ## File Storage
@@ -246,17 +256,17 @@ The frontend will be available at: `http://localhost:4200`
 
 ## **Example API endpoints**
 
-| Method  | URL                        | Description                                 |
-| ------  | -------------------------- | ------------------------------------------- |
-| `POST`  | `/api/auth/register`       | Register new user                           |
-| `POST`  | `/api/auth/login`          | Login and receive auth cookies              |
-| `GET`   | `/api/auth/me`             | Validate and return current user            |
-| `POST`  | `/api/auth/refresh`        | Refresh access token                        |
-| `POST`  | `/api/auth/logout`         | Invalidate session                          |
-| `POST`  | `/api/image/upload`        | Upload image and extract color              |
-| `DELETE`| `/api/image/{id}`          | Delete image (DB + file system)             |
-| `GET`   | `/api/image/my-images`     | Get current user's images (thumbnail list)  |
-| `GET`   | `/api/image/{id}`          | Get details of a specific image             |
-| `PUT`   | `/api/user/me`             | Update user name, surname, and email        |
-| `DELETE`| `/api/user/me`             | Delete user account and data                |
-| `POST`  | `/api/user/update-password`| Update user password                        |
+| Method  | URL                        | Description                                                                |
+| ------  | -------------------------- | -------------------------------------------------------------------------- |
+| `POST`  | `/api/auth/register`       | Register new user                                                          |
+| `POST`  | `/api/auth/login`          | Login and receive auth cookies (Rate-limited: 5 attempts per IP per 10 min)|
+| `GET`   | `/api/auth/me`             | Validate and return current user                                           |
+| `POST`  | `/api/auth/refresh`        | Refresh access token                                                       |
+| `POST`  | `/api/auth/logout`         | Invalidate session                                                         |
+| `POST`  | `/api/image/upload`        | Upload image and extract color                                             |
+| `DELETE`| `/api/image/{id}`          | Delete image (DB + file system)                                            |
+| `GET`   | `/api/image/my-images`     | Get current user's images (thumbnail list)                                 |
+| `GET`   | `/api/image/{id}`          | Get details of a specific image                                            |
+| `PUT`   | `/api/user/me`             | Update user name, surname, and email                                       |
+| `DELETE`| `/api/user/me`             | Delete user account and data                                               |
+| `POST`  | `/api/user/update-password`| Update user password                                                       |
