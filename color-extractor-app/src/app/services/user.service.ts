@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { environment } from '../../environment'; // load environment config
+
 export interface UserUpdateRequest {
   name: string;
   surname: string;
@@ -17,7 +19,7 @@ export interface UserDeleteRequest {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:5176/api/user'; // Base url for user operations
+  private apiUrl = `${environment.apiBaseUrl}/user`; // Base url for user operations 
 
   constructor(private http: HttpClient) {}
 

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, map, catchError, tap, BehaviorSubject, throwError } from 'rxjs';
 
+import { environment } from '../../environment'; // load environment config
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -28,7 +30,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5176/api/auth'; // Base URL for authentication
+  private apiUrl = `${environment.apiBaseUrl}/auth` // Base URL for authentication
 
   private currentUserSubject = new BehaviorSubject<any | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable(); // Track logged in user

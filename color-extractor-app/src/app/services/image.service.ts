@@ -1,8 +1,8 @@
-// Cnetral way for Angular frontend to communicate with .NET backend
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { environment } from '../../environment'; // load environment config
 
 // For the list of imgs (GET /api/image/list)
 export interface ImageListItem {
@@ -30,7 +30,7 @@ export interface UploadResponse {
   providedIn: 'root'
 })
 export class ImageService {
-  private apiUrl = 'http://localhost:5176/api/image'; // Base URL for images
+  private apiUrl = `${environment.apiBaseUrl}/image`; // Base URL for images
 
   constructor(private http: HttpClient) { }
 
