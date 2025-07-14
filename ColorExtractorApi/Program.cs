@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 using ColorExtractorApi.Data;
+using ColorExtractorApi.Extensions;
 using ColorExtractorApi.Middleware;
 using ColorExtractorApi.Repository;
 using ColorExtractorApi.Services;
@@ -80,6 +81,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 
+// Register Rate Limiting:
+builder.Services.AddRateLimiting(builder.Configuration);
+
 // Repositories:
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
@@ -123,6 +127,7 @@ app.UseCors(MyAllowFrontend);
 app.UseMiddleware<CsrfProtectionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiting(); // Use rate limiting middleware
 
 app.MapControllers();
 

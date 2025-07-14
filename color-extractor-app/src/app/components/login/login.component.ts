@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIcon
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -57,8 +59,8 @@ export class LoginComponent {
         this.isLoading = false;
         this.router.navigate(['/home']); // Navigate to home after login
       },
-      error: (err) => {
-        this.errorMessage = err?.error?.message || 'Login failed. Please try again.';
+      error: (err: Error) => {
+        this.errorMessage = err.message;
         this.isLoading = false;
       }
     });

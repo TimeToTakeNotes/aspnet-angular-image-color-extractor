@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIcon
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
@@ -71,8 +73,8 @@ export class RegisterComponent {
         this.isLoading = false;
         this.router.navigate(['/home']);
       },
-      error: err => {
-        this.errorMessage = err?.error?.message || 'Registration failed.';
+      error: (err: Error) => {
+        this.errorMessage = err.message;
         this.isLoading = false;
       }
     });

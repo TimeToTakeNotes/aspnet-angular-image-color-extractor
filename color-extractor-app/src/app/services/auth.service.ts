@@ -46,7 +46,22 @@ export class AuthService {
     }).pipe(
       tap(() => {
         this.isLoggedInSubject.next(true);
-        this.getMe().subscribe(); // This populates currentUserSubject
+        this.getMe().subscribe(); // Populates currentUserSubject
+      }),
+      catchError(err => {
+        let message = 'Login failed. Please try again.';
+
+        if (err.status === 0) {
+          message = 'Unable to connect to the server. Please check your network.';
+        } else if (err.status === 429) {
+          message = 'Too many login attempts. Please try again later.';
+        } else if (err.status >= 500) {
+          message = 'A server error occurred. Please try again later.';
+        } else if (err.error?.message) {
+          message = err.error.message;
+        }
+
+        return throwError(() => new Error(message));
       })
     );
   }
@@ -59,6 +74,19 @@ export class AuthService {
       tap(() => {
         this.isLoggedInSubject.next(true);
         this.getMe().subscribe(); // This populates currentUserSubject
+      }),
+      catchError(err => {
+        let message = 'Registration failed. Please try again.';
+
+        if (err.status === 0) {
+          message = 'Unable to connect to the server. Please check your network.';
+        } else if (err.status >= 500) {
+          message = 'A server error occurred. Please try again later.';
+        } else if (err.error?.message) {
+          message = err.error.message;
+        }
+
+        return throwError(() => new Error(message));
       })
     );
   }

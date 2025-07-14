@@ -70,7 +70,10 @@
       </p>
 
       <!-- Error Message -->
-      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+      <div *ngIf="errorMessage" class="error" role="alert">
+        <mat-icon aria-hidden="true">error</mat-icon>
+        {{ errorMessage }}
+      </div>
     </div>
   </form>
 </div>
