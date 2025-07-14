@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Repository;
 using ColorExtractorApi.Services.Helpers;
+using ColorExtractorApi.Services.Interfaces;
 
 namespace ColorExtractorApi.Services
 {

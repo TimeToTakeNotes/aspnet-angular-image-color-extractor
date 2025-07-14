@@ -3,17 +3,21 @@ using ColorExtractorApi.Models;
 using ColorExtractorApi.Models.DTOs;
 using ColorExtractorApi.Repository;
 using ColorExtractorApi.Services.Helpers;
+using ColorExtractorApi.Services.Interfaces;
+
 
 namespace ColorExtractorApi.Services
 {
     public class AuthService : IAuthService
     {
+        private readonly ILoggerService _logger;
         private readonly IUserRepository _userRepository;
         private readonly IRefreshTokenRepository _refreshRepository;
         private readonly JwtUtils _jwtUtils;
 
-        public AuthService(IUserRepository userRepository, IRefreshTokenRepository refreshRepository, JwtUtils jwtUtils)
+        public AuthService(ILoggerService logger, IUserRepository userRepository, IRefreshTokenRepository refreshRepository, JwtUtils jwtUtils)
         {
+            _logger = logger;
             _userRepository = userRepository;
             _refreshRepository = refreshRepository;
             _jwtUtils = jwtUtils;
@@ -21,9 +25,12 @@ namespace ColorExtractorApi.Services
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto model)
         {
+            _logger.LogInfo($"Registration attempt for email: {model.Email}");
+
             var existingUser = await _userRepository.GetByEmailAsync(model.Email);
             if (existingUser != null)
             {
+                _logger.LogWarn($"Registration failed: Email '{model.Email}' already registered.");
                 return new AuthResponseDto { Success = false, Message = "Email already registered." };
             }
 
@@ -38,6 +45,8 @@ namespace ColorExtractorApi.Services
             user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
 
             await _userRepository.CreateAsync(user);
+
+            _logger.LogInfo($"User registered successfully: {model.Email}");
 
             // Generate all tokens:
             var (jwtToken, jwtExpiresAt, refreshToken) = GenerateTokensForUser(user);
@@ -59,6 +68,8 @@ namespace ColorExtractorApi.Services
 
         public async Task<AuthResponseDto> LoginAsync(LoginRequestDto model)
         {
+            _logger.LogInfo($"Login attempt for email: {model.Email}");
+
             var user = await _userRepository.GetByEmailAsync(model.Email);
             if (user == null)
             {
@@ -72,6 +83,8 @@ namespace ColorExtractorApi.Services
             {
                 return new AuthResponseDto { Success = false, Message = "Invalid credentials." };
             }
+
+            _logger.LogInfo($"Login successful for '{model.Email}'");
 
             // Generate all tokens:
             var (jwtToken, jwtExpiresAt, refreshToken) = GenerateTokensForUser(user);
@@ -128,7 +141,7 @@ namespace ColorExtractorApi.Services
             return user != null ? new UserDto(user) : null;
         }
 
-        
+
         // Helper method: Centralizes token creation logic:
         private (string jwt, DateTime jwtExpires, RefreshToken refreshToken) GenerateTokensForUser(User user)
         {

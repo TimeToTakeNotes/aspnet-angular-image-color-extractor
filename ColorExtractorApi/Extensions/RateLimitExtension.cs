@@ -5,6 +5,7 @@
 using ColorExtractorApi.Middleware;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Services;
+using ColorExtractorApi.Services.Interfaces;
 
 namespace ColorExtractorApi.Extensions
 {

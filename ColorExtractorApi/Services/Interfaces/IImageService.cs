@@ -1,6 +1,6 @@
 using ColorExtractorApi.Models;
 
-namespace ColorExtractorApi.Services
+namespace ColorExtractorApi.Services.Interfaces
 {
     public interface IImageService
     {

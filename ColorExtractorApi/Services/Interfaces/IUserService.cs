@@ -1,4 +1,4 @@
-namespace ColorExtractorApi.Services
+namespace ColorExtractorApi.Services.Interfaces
 {
     public interface IUserService
     {

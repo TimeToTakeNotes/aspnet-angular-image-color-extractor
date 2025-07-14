@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using System.Net;
-using ColorExtractorApi.Services;
+using ColorExtractorApi.Services.Interfaces;
 using ColorExtractorApi.Models;
 
 namespace ColorExtractorApi.Middleware

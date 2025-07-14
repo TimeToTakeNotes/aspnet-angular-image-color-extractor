@@ -1,6 +1,6 @@
 using ColorExtractorApi.Models.DTOs;
 
-namespace ColorExtractorApi.Services
+namespace ColorExtractorApi.Services.Interfaces
 {
     public interface IAuthService
     {

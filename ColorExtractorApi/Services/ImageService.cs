@@ -1,6 +1,7 @@
 using ColorExtractorApi.Repository;
 using ColorExtractorApi.Models;
 using ColorExtractorApi.Services.Helpers;
+using ColorExtractorApi.Services.Interfaces;
 
 namespace ColorExtractorApi.Services
 {

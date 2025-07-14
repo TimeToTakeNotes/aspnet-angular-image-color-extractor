@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using ColorExtractorApi.Models;
+using ColorExtractorApi.Services.Interfaces;
 
 namespace ColorExtractorApi.Services
 {

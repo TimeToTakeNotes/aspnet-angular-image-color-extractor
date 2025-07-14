@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ColorExtractorApi.Models.DTOs;
-using ColorExtractorApi.Services;
+using ColorExtractorApi.Services.Interfaces;
 
 namespace ColorExtractorApi.Controllers
 {
