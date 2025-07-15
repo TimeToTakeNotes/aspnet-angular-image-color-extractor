@@ -82,10 +82,16 @@ namespace ColorExtractorApi.Controllers
             try
             {
                 bool deleted = await _userService.DeleteUserAsync(userId, dto.Password);
-                if (!deleted)
-                    return NotFound(new { message = "User not found." });
+                if (deleted)
+                {
+                    // Clear authentication cookies
+                    Response.Cookies.Delete("access_token");
+                    Response.Cookies.Delete("refresh_token");
 
-                return Ok(new { message = "User account deleted successfully." });
+                    return Ok(new { message = "User account deleted successfully." });
+                }
+
+                return NotFound(new { message = "User not found." });
             }
             catch (UnauthorizedAccessException)
             {

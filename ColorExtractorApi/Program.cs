@@ -178,11 +178,13 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application terminated unexpectedly");;
+    Log.Fatal(ex, "Application terminated unexpectedly.");
     throw;
 }
 finally
 {
+    Log.Information("\n\n--------------------------------------------------------------------------------- \n" +
+                    "ColorExtractorApi terminated successfully\n");
     Log.CloseAndFlush();
 }
 
