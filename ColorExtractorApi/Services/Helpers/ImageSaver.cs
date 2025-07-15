@@ -2,11 +2,11 @@ namespace ColorExtractorApi.Services.Helpers
 {
     public class ImageSaver
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly string _UploadsRoot;
 
         public ImageSaver(IWebHostEnvironment env)
         {
-            _env = env;
+            _UploadsRoot = Path.Combine(env.ContentRootPath, "UserUploads");
         }
 
         public async Task<(string ImagePath, string ThumbnailPath)> SaveImageAndThumbnailAsync(byte[] imgBytes, byte[] thumbBytes, int userId, string? baseFileName = null)
@@ -15,7 +15,7 @@ namespace ColorExtractorApi.Services.Helpers
             baseFileName ??= Guid.NewGuid().ToString();
 
             // Create user-specific directories
-            var userFolder = Path.Combine(_env.WebRootPath, $"user_{userId}");
+            var userFolder = Path.Combine(_UploadsRoot, $"user_{userId}");
             var uploadsDir = Path.Combine(userFolder, "uploads");
             var thumbsDir = Path.Combine(userFolder, "thumbnails");
 
@@ -23,9 +23,12 @@ namespace ColorExtractorApi.Services.Helpers
             Directory.CreateDirectory(uploadsDir);
             Directory.CreateDirectory(thumbsDir);
 
+            var imgFileName = $"{baseFileName}.png";
+            var thumbFileName = $"{baseFileName}_thumb.jpg";
 
-            var imgPath = Path.Combine(uploadsDir, $"{baseFileName}.png"); // Use same base for both img and thumb
-            var thumbPath = Path.Combine(thumbsDir, $"{baseFileName}_thumb.jpg");
+
+            var imgPath = Path.Combine(uploadsDir, imgFileName);
+            var thumbPath = Path.Combine(thumbsDir, thumbFileName);
 
             // Save files to disk:
             await File.WriteAllBytesAsync(imgPath, imgBytes);
@@ -33,8 +36,8 @@ namespace ColorExtractorApi.Services.Helpers
 
             // Return relative web-accessible paths
             return (
-                $"user_{userId}/uploads/{baseFileName}.png".Replace("\\", "/"),
-                $"user_{userId}/thumbnails/{baseFileName}_thumb.jpg".Replace("\\", "/")
+                Path.Combine($"user_{userId}", "uploads", imgFileName).Replace("\\", "/"),
+                Path.Combine($"user_{userId}", "thumbnails", thumbFileName).Replace("\\", "/")
             );
         }
     }

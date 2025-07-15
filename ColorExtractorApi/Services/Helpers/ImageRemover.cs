@@ -2,17 +2,17 @@ namespace ColorExtractorApi.Services.Helpers
 {
     public class ImageRemover
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly string _UploadsRoot;
 
         public ImageRemover(IWebHostEnvironment env)
         {
-            _env = env;
+            _UploadsRoot = Path.Combine(env.ContentRootPath, "UserUploads");
         }
 
         public void DeleteImageAndThumbnail(string imagePath, string thumbnailPath)
         {
-            var fullImagePath = Path.Combine(_env.WebRootPath, imagePath.Replace("/", Path.DirectorySeparatorChar.ToString()));
-            var fullThumbPath = Path.Combine(_env.WebRootPath, thumbnailPath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+            var fullImagePath = Path.Combine(_UploadsRoot, imagePath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+            var fullThumbPath = Path.Combine(_UploadsRoot, thumbnailPath.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
             try
             {

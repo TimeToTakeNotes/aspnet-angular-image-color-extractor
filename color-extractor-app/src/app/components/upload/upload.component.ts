@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-upload',
@@ -94,7 +95,7 @@ export class UploadComponent {
 
     this.imageService.uploadImage(this.selectedFile).subscribe({
       next: (response: UploadResponse) => {
-        this.uploadedImageUrl = response.imageUrl;
+        this.uploadedImageUrl = `${environment.apiBaseUrl}/image/imagefile/${response.imageId}`;
         this.hexColor = response.hexColor;
         this.selectedFile = null;
         this.fileInput.nativeElement.value = '';

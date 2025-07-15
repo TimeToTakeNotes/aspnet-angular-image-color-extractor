@@ -51,7 +51,31 @@ namespace ColorExtractorApi.Controllers
             });
         }
 
-        // Lists user owned images
+
+
+        // Gets a thumbnail image by ID (for secure image access)
+        [HttpGet("thumbnail/{id}")]
+        public async Task<IActionResult> GetThumbnail(int id)
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized();
+
+            var img = await _imageService.GetImageByImageIdAsync(id, userId.Value);
+            if (img == null)
+                return NotFound();
+
+            var thumbFullPath = Path.Combine("UserUploads", img.ThumbnailPath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+            if (!System.IO.File.Exists(thumbFullPath))
+                return NotFound();
+
+            var contentType = "image/jpeg"; // Thumbnails are JPEGs
+            var stream = new FileStream(thumbFullPath, FileMode.Open, FileAccess.Read);
+            return File(stream, contentType);
+        }
+
+        // Lists user owned images (load thumbnails as list)
         [HttpGet("my-images")] // GET api/image/my-images
         public async Task<IActionResult> GetMyImages()
         {
@@ -68,19 +92,43 @@ namespace ColorExtractorApi.Controllers
             var result = images.Select(img => new ImageListItemDto
             {
                 Id = img.Id,
-                ThumbnailUrl = $"{baseUrl}/{img.ThumbnailPath}",
+                ThumbnailUrl = $"{baseUrl}/api/image/thumbnail/{img.Id}",
                 HexColor = img.HexColor
             });
 
             return Ok(result);
         }
 
-        // Gets image details by ID
+
+
+
+        // Gets the full-size image file by ID (for secure image access)
+        [HttpGet("imagefile/{id}")]
+        public async Task<IActionResult> GetImageFile(int id)
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized();
+
+            var img = await _imageService.GetImageByImageIdAsync(id, userId.Value);
+            if (img == null)
+                return NotFound();
+
+            var imageFullPath = Path.Combine("UserUploads", img.ImagePath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+            if (!System.IO.File.Exists(imageFullPath))
+                return NotFound();
+
+            var contentType = "image/png"; // Full-size images are PNG
+            var stream = new FileStream(imageFullPath, FileMode.Open, FileAccess.Read);
+            return File(stream, contentType);
+        }
+
+        // Gets image details (image and metadata) by ID
         [HttpGet("{id}")] // GET api/image/{id}
         public async Task<IActionResult> GetImageById(int id)
         {
             var userId = GetUserIdFromToken();
-
             if (userId == null)
             {
                 return Unauthorized(new { Message = "User ID not found in token." });
@@ -95,12 +143,16 @@ namespace ColorExtractorApi.Controllers
             var result = new ImageDetailDto
             {
                 Id = img.Id,
-                ImageUrl = $"{baseUrl}/{img.ImagePath}",
+                ImageUrl = $"{baseUrl}/api/image/imagefile/{img.Id}",
                 HexColor = img.HexColor
             };
 
             return Ok(result);
         }
+
+
+
+
 
         // Deletes an image by ID
         [HttpDelete("{id}")] // DELETE api/image/{id}

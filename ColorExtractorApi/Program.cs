@@ -22,15 +22,21 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
+    // Ensure logs directory exists
     var logsDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
     if (!Directory.Exists(logsDir))
     {
         Directory.CreateDirectory(logsDir);
     }
-    Console.WriteLine($"Logs directory: {logsDir}");
-    Console.WriteLine($"Directory exists: {Directory.Exists(logsDir)}");
-
     Log.Information("Starting up the application");
+
+
+    // Ensure UserUploads directory exists
+    var UserUploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "UserUploads");
+    if (!Directory.Exists(UserUploadsDir))
+    {
+        Directory.CreateDirectory(UserUploadsDir);
+    }
 
 
     var MyAllowFrontend = "myAllowFrontend";
@@ -41,8 +47,6 @@ try
         .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
         .AddEnvironmentVariables(); // Load env vars
 
-    // Add services to the container.
-    // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
     builder.Services.AddOpenApi();
 
     builder.Services.AddCors(options =>

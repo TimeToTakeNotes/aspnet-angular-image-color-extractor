@@ -4,7 +4,7 @@ A full-stack image color extractor application that allows users to upload image
 
 - **Backend**: ASP.NET Core Web API (.NET 7+)
 - **Frontend**: Angular (standalone components)
-- **Security**: JWT Auth via HttpOnly Cookies + CSRF Protection
+- **Security**: JWT Auth via HttpOnly Cookies + CSRF Protection + IP Based Rate Limiting
 
 ---
 
@@ -12,7 +12,7 @@ A full-stack image color extractor application that allows users to upload image
 
 - Upload image → extract center pixel color
 - Thumbnail generation
-- Images saved in per-user folders under `wwwroot/uploads/{userId}/`
+- Images saved in per-user folders under `UserUploads/{userId}/`
 - Secure user registration/login using JWT in HttpOnly cookies (access + refresh tokens)
 - IP-based rate limiting for login attempts (5 per 10 minutes per IP)
 - CSRF protection via custom middleware
@@ -180,7 +180,7 @@ dotnet run
 ```
 
 The API will be available at: `http://localhost:5176`
-Images are saved per user under `wwwroot/uploads/{userId}/`
+Images are saved per user under `UserUploads/{userId}/`
 
 ---
 
@@ -229,7 +229,7 @@ The backend includes custom rate limiting middleware to prevent brute-force logi
 
 ## File Storage
 
-- Uploaded images and thumbnails are stored in `wwwroot/uploads/{userId}/` with subfolder `thumbnails/`.
+- Uploaded images and thumbnails are stored in `UserUploads/{userId}/` with subfolder `thumbnails/`.
 - On image deletion, the system removes:
   - The image file (e.g., uploads/5e2e23a9.png)
   - The thumbnail (e.g., uploads/thumbnails/5e2e23a9_thumb.jpg)
@@ -248,9 +248,9 @@ The backend includes custom rate limiting middleware to prevent brute-force logi
 
 ## **.gitignore / uploads**
 
-- The `wwwroot/uploads/` folder is ignored in Git.
+- The `UserUploads/` folder is ignored in Git.
 - Folder structure is auto-created per user on first upload.
-- You only need to manually create the wwwroot directory if not present.
+- You only need to ensure the UserUploads base folder exists (it is created at runtime).
 
 ---
 
@@ -265,7 +265,9 @@ The backend includes custom rate limiting middleware to prevent brute-force logi
 | `POST`  | `/api/auth/logout`         | Invalidate session                                                         |
 | `POST`  | `/api/image/upload`        | Upload image and extract color                                             |
 | `DELETE`| `/api/image/{id}`          | Delete image (DB + file system)                                            |
+| `GET`   | `/api/image/thumbnail/{id}`| Securely retrieve thumbnail image content                                  |
 | `GET`   | `/api/image/my-images`     | Get current user's images (thumbnail list)                                 |
+| `GET`   | `/api/imagefile/{id}`      | Securely retrieve full-size image and metadata                             |
 | `GET`   | `/api/image/{id}`          | Get details of a specific image                                            |
 | `PUT`   | `/api/user/me`             | Update user name, surname, and email                                       |
 | `DELETE`| `/api/user/me`             | Delete user account and data                                               |

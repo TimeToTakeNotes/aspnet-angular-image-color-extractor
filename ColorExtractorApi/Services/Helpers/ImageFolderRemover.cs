@@ -2,17 +2,17 @@ namespace ColorExtractorApi.Services.Helpers
 {
     public class ImageFolderRemover
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly string _UploadsRoot;
 
         public ImageFolderRemover(IWebHostEnvironment env)
         {
-            _env = env;
+            _UploadsRoot = Path.Combine(env.ContentRootPath, "UserUploads");
         }
 
         public void DeleteImageFolder(int userId)
         {
             var folderName = $"user_{userId}";
-            var folderPath = Path.Combine(_env.WebRootPath, folderName);
+            var folderPath = Path.Combine(_UploadsRoot, folderName);
 
             try
             {
