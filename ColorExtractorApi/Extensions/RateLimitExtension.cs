@@ -16,6 +16,7 @@ namespace ColorExtractorApi.Extensions
             services.AddMemoryCache();
             services.Configure<RateLimitOptions>(config.GetSection("RateLimiting"));
             services.AddSingleton<IRateLimitService, RateLimitService>();
+            services.AddSingleton<ILoggerService, LoggerService>();
             return services;
         }
 

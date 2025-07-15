@@ -11,11 +11,13 @@ namespace ColorExtractorApi.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+        private readonly ILoggerService _logger;
         private readonly IWebHostEnvironment _env;
         private readonly IAuthService _authService;
 
-        public AuthController(IWebHostEnvironment env, IAuthService authService)
+        public AuthController(ILoggerService logger, IWebHostEnvironment env, IAuthService authService)
         {
+            _logger = logger;
             _env = env;
             _authService = authService;
         }
@@ -129,6 +131,15 @@ namespace ColorExtractorApi.Controllers
         {
             Response.Cookies.Delete("access_token");
             Response.Cookies.Delete("refresh_token");
+
+            // Try to get user ID from claims if authenticated
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("nameid");
+            var emailClaim = User.FindFirst(ClaimTypes.Email);
+
+            var userId = userIdClaim?.Value ?? "Anonymous";
+            var email = emailClaim?.Value ?? "Unknown";
+
+            _logger.LogInfo($"[Logout] Logout called for user ID: {userId}, email: {email}.");
             return Ok(new { Message = "Logged out successfully." });
         }
     }

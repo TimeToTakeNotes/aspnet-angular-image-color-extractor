@@ -8,6 +8,39 @@ A full-stack image color extractor application that allows users to upload image
 
 ---
 
+## Table of Contents
+
+- [File Structure](#file-structure)
+- [Features](#features)
+- [Setup instructions](#setup-instructions)
+  - [1️. Clone the repository](#1️-clone-the-repository)
+  - [2️. ASP.NET Core backend setup](#2️-aspnet-core-backend-setup)
+  - [3️. Angular frontend setup](#3️-angular-frontend-setup)
+- [Authentication & Security Notes](#authentication--security-notes)
+- [File Storage](#file-storage)
+- [Environment variable summary](#environment-variable-summary)
+- [.gitignore / uploads](#gitignore--uploads)
+- [Example API endpoints](#example-api-endpoints)
+
+---
+
+## File Structure
+
+```
+.
+├── .gitattributes
+├── .gitignore
+├── ColorExtractorApi/
+├── color-extractor-app/
+├── image-color-extractor.sln
+├── README.md
+```
+- `ColorExtractorApi/` — ASP.NET Core Web API backend
+- `color-extractor-app/` — Angular frontend app
+- `.gitattributes`, `.gitignore`, `README.md`, and `image-color-extractor.sln` at the repo root
+
+---
+
 ## **Features**
 
 - Upload image → extract center pixel color

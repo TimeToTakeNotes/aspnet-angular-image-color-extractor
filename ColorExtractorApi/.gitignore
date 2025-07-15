@@ -23,6 +23,7 @@ SSLCerts/
 
 # Logs
 *.log
+/logs/
 
 # ASP.NET Core secrets
 secrets.json

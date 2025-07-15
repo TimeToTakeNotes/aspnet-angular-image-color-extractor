@@ -14,6 +14,7 @@ using ColorExtractorApi.Services;
 using ColorExtractorApi.Services.Helpers;
 using ColorExtractorApi.Services.Interfaces;
 
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .WriteTo.Console()
@@ -28,7 +29,9 @@ try
     {
         Directory.CreateDirectory(logsDir);
     }
-    Log.Information("Starting up the application");
+    Log.Information("\n\n--------------------------------------------------------------------------------- \n" +
+                    "ColorExtractorApi starting up...\n" +
+                    "---------------------------------------------------------------------------------\n");
 
 
     // Ensure UserUploads directory exists
@@ -41,6 +44,7 @@ try
 
     var MyAllowFrontend = "myAllowFrontend";
     var builder = WebApplication.CreateBuilder(args);
+
 
     builder.Configuration
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
