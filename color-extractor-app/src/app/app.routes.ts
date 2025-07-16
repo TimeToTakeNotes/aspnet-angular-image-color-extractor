@@ -10,7 +10,6 @@ import { AuthGuard } from './guards/auth.guard';
 
 // Defines which component to show for each url:
 export const routes: Routes = [
-  // { path: '', canActivate: [StartRedirectGuard], pathMatch: 'full' }, // Decides redirect
 
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },

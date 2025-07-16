@@ -3,27 +3,27 @@ namespace ColorExtractorApi.Middleware
     public class CsrfProtectionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IWebHostEnvironment _env;
 
-        public CsrfProtectionMiddleware(RequestDelegate next, IWebHostEnvironment env)
+        public CsrfProtectionMiddleware(RequestDelegate next)
         {
             _next = next;
-            _env = env;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!_env.IsDevelopment()) // Only enforce in production
+            var method = context.Request.Method;
+            var isWriteRequest = method == HttpMethods.Post || method == HttpMethods.Put || method == HttpMethods.Delete;
+
+            if (isWriteRequest)
             {
-                var method = context.Request.Method;
-                if (method == HttpMethods.Post || method == HttpMethods.Put || method == HttpMethods.Delete)
+                var csrfCookie = context.Request.Cookies["XSRF-TOKEN"];
+                context.Request.Headers.TryGetValue("X-XSRF-TOKEN", out var csrfHeader);
+
+                if (string.IsNullOrEmpty(csrfCookie) || csrfHeader != csrfCookie)
                 {
-                    if (!context.Request.Headers.ContainsKey("X-XSRF-TOKEN"))
-                    {
-                        context.Response.StatusCode = 403;
-                        await context.Response.WriteAsync("Missing CSRF token header.");
-                        return;
-                    }
+                    context.Response.StatusCode = 403;
+                    await context.Response.WriteAsync("Invalid or missing CSRF token.");
+                    return;
                 }
             }
 

@@ -155,7 +155,10 @@ try
     app.UseStaticFiles(); // Serve wwwroot folder
     app.UseRouting();
     app.UseCors(MyAllowFrontend);
+
+    app.UseMiddleware<CsrfTokenGenMiddleware>();
     app.UseMiddleware<CsrfProtectionMiddleware>();
+
     app.UseAuthentication();
     app.UseAuthorization();
     app.UseRateLimiting(); // Use rate limiting middleware
